@@ -1,37 +1,44 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import {store} from './store';
+// HOOKS
+import {useToken} from './hooks/useToken';
+// COMPONENTS
+
+import {Login} from './components/Login/Login';
+// CSS
 import './App.css';
+import { HomePage } from './pages/HomePage';
+import { MediaDetailPage } from './pages/MediaDetailPage';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+import { MediaListPage } from './pages/MediaListPage';
+import { MOVIE_TYPE, TVSERIE_TYPE } from './consts';
+
 
 export const App = () => {
-
-  const [data, setData] = useState(null);
-
-  const fetchData = async () => {
-    const response = await fetch("http://localhost:3001");
-    console.log(response);
-    const data = await response.json();
-    console.log(data);
-    setData(data?.message);
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const {token, setToken} = useToken();
+  let persistor = persistStore(store);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {data}
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        {token
+          ? ( 
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/movies" element={<MediaListPage type={MOVIE_TYPE} />} />
+                <Route path="/tvseries" element={<MediaListPage type={TVSERIE_TYPE} />} />
+                <Route path="/movie/:id" element={<MediaDetailPage type={MOVIE_TYPE} />} />
+                <Route path="/tvserie/:id" element={<MediaDetailPage type={TVSERIE_TYPE} />} />
+              </Routes>
+            </BrowserRouter>
+          )
+          : <Login setToken={setToken} />
+        }
+      </PersistGate>
+    </Provider>
+  )
 };

@@ -13,6 +13,8 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  favourite_movies: [{type: Schema.Types.ObjectId, ref: "movies"}],
+  favourite_tvseries: [{type: Schema.Types.ObjectId, ref: "tvseries"}],
 });
 
 UserSchema.pre(
@@ -31,4 +33,4 @@ UserSchema.methods.isValidPassword = async function(password) {
   return compare;
 }
 
-module.exports = mongoose.model('user', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

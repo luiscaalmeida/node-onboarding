@@ -28,6 +28,7 @@ const corsOptions = {
 
 const indexRouter = require('./routes/index');
 const secureRoutes = require('./routes/secure');
+const favouriteRouter = require('./routes/favourite');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
+app.use('/favourite', favouriteRouter);
 app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 
 // catch 404 and forward to error handler
