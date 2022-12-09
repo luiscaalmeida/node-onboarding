@@ -1,24 +1,17 @@
 import React from 'react'
-import {Button} from '@mui/material';
-import {Link} from 'react-router-dom';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
-import {Box} from '@mui/system';
+import { MOVIE_TYPE, TVSERIE_TYPE } from '../consts';
+import { SeeMostPopular } from '../components/SeeMostPopular/SeeMostPopular';
+import { SeeMostPopularMedia } from '../components/SeeMostPopularMedia/SeeMostPopularMedia';
 
 export const HomePage = () => {
-  const title = 'Home Page';
+  // const title = 'Home Page';
 
   return (
-    <PageWrapper title={title}>
-      <Box sx={{ display: 'inline-flex', marginRight: "20px" }}>
-          <Button size='large' variant="contained" color='secondary' to={`/movies`} component={Link}>
-            Movies
-          </Button>
-      </Box>
-      <Box sx={{ display: 'inline-flex' }}>
-          <Button size='large' variant="contained" color='secondary' to={`/tvseries`} component={Link}>
-            TV Series
-          </Button>
-      </Box>
+    <PageWrapper>
+      <SeeMostPopularMedia type={MOVIE_TYPE} limit={5} align={'center'} showTitle />
+      <SeeMostPopularMedia type={TVSERIE_TYPE} limit={5} align={'center'} showTitle />
+      <SeeMostPopular />
     </PageWrapper>
   )
 };

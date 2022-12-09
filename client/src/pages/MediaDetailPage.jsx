@@ -1,14 +1,18 @@
 import React from 'react'
-import { useFetch } from '../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { MediaCardDetail } from '../components/MediaCard/MediaCardDetail';
 import { PageWrapper } from '../components/PageWrapper/PageWrapper';
 import { DETAIL_FETCHERS, MOVIE_TYPE } from '../consts';
+import { useQuery } from '@tanstack/react-query';
+import { axiosGet } from '../axios';
 
 export const MediaDetailPage = ({type}) => {
   const {id} = useParams();
   const {key, func} = DETAIL_FETCHERS[type];
-  const {isLoading, error, data: media} = useFetch(key, func(id));
+  const {isLoading, error, data: media} = useQuery(
+    [key],
+    () => axiosGet(func(id)),
+  );
   const shouldShowMedia = !isLoading && !error && !!media;
   const title = type === MOVIE_TYPE ? media?.title : media?.name;
 
@@ -16,6 +20,7 @@ export const MediaDetailPage = ({type}) => {
     <PageWrapper title={title}>
       {shouldShowMedia && (
         <MediaCardDetail
+          id={id}
           type={type}
           title={title}
           genres={media?.genres}

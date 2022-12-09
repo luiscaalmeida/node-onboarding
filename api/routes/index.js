@@ -21,6 +21,20 @@ router.post(
   },
 );
 
+// router.post(
+//   '/logout',
+//   passport.authenticate('logout', {session: false}),
+//   async (req, res, next) => {
+//     req.logout(err => {
+//       if (err) { 
+//         console.log(err);
+//         return next(err); 
+//       }
+//       res.redirect('/');
+//     });
+//   }
+// );
+
 router.post(
   '/login',
   async (req, res, next) => {

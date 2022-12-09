@@ -10,6 +10,7 @@ import { RatingVotes } from './Rating';
 import Overview from './Overview';
 import { Seasons } from './Seasons';
 import { TitleHeader } from './TitleHeader';
+import { LocalRating } from './LocalRating';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ const Content = styled.div`
 `;
 
 export const MediaCardDetail = ({
+  id,
   type,
   title,
   overview,
@@ -63,6 +65,7 @@ export const MediaCardDetail = ({
         <Genres genres={genres} />
         {type === MOVIE_TYPE && <Budgeting budget={budget} revenue={revenue} />}
         <RatingVotes voteCount={voteCount} normalizedRating={normalizedRating} />
+        <LocalRating id={id} />
       </Content>
     </Wrapper>
   );

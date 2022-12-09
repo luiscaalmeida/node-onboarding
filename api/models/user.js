@@ -13,8 +13,8 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  favourite_movies: [{type: Schema.Types.ObjectId, ref: "movies"}],
-  favourite_tvseries: [{type: Schema.Types.ObjectId, ref: "tvseries"}],
+  favourites: [{type: Schema.Types.ObjectId, ref: "Favourites"}],
+  localRatings: [{id: Number, rating: Number}],
 });
 
 UserSchema.pre(

@@ -11,16 +11,32 @@ import { useSelector } from 'react-redux';
 import { userName } from '../../selectors/user';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 export const Header = () => {
   const isUserAuthenticated = useSelector(userName);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
   const title = 'IMDB.v2';
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    handleClose();
+    navigate('/');
+    // baseApi.post(logoutUrl)
+    //   .then(() => {
+    //     dispatch(userLogout());
+    //   })
+    //   .catch(err => console.error(err));
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -64,7 +80,7 @@ export const Header = () => {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                <MenuItem onClick={logout}>Log Out</MenuItem>
               </Menu>
             </div>
           )}

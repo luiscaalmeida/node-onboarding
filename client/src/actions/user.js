@@ -10,4 +10,4 @@ export const userLogin = user => ({
   payload: user,
 });
 
-export const userLogout = user => ({type: USER_ACTIONS.LOGOUT});
+export const userLogout = () => ({type: USER_ACTIONS.LOGOUT});

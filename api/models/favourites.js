@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const TvSeriesSchema = new Schema({
+const FavouritesSchema = new Schema({
   key: {
     type: Number,
     required: true,
     unique: true,
+  },
+  type: {
+    type: String,
+    enum: ['admin', 'guest'],
+    required: true,
   },
   title: {
     type: String,
@@ -25,4 +30,4 @@ const TvSeriesSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('Tvseries', TvSeriesSchema);
+module.exports = mongoose.model('Favourites', FavouritesSchema);

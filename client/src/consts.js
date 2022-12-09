@@ -13,7 +13,6 @@ export const searchTVSeriesURL = (query) => `${BASE_URL}/search/tv${BASE_QUERIES
 export const getMostPopularMoviesURL = () => `${BASE_URL}/movie/popular${BASE_QUERIES}&page=1`;
 export const getMostPopularTvSeriesURL = () => `${BASE_URL}/tv/popular${BASE_QUERIES}&page=1`;
 
-export const SERVER_BASE_URL = 'http://localhost:3001';
 
 export const MOVIE_TYPE = 'movie';
 export const TVSERIE_TYPE = 'tvserie';
@@ -32,3 +31,9 @@ export const SEARCH_FETCHERS = {
   [MOVIE_TYPE]: {key: 'searchMoviesURL', func: searchMoviesURL},
   [TVSERIE_TYPE]: {key: 'searchTVSeriesURL', func: searchTVSeriesURL},
 };
+
+export const SERVER_BASE_URL = 'http://localhost:3001';
+
+export const getLocalRatingByMediaId = (id) => `${SERVER_BASE_URL}/localRating/${id}`;
+export const setLocalRatingByMediaId = (id) => `${SERVER_BASE_URL}/localRating/${id}`;
+export const logoutUrl = `${SERVER_BASE_URL}/logout`;

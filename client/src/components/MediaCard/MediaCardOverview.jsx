@@ -14,7 +14,7 @@ export const MediaCardOverview = ({
   mediaUrl,
 }) => {
   return (
-    <Card sx={{ maxWidth: 345, minWidth: 345 }} style={{margin: "40px 40px 40px 0"}}>
+    <Card sx={{ maxWidth: 345, minWidth: 345 }} style={{margin: "0 40px 40px 0"}}>
       <CardMedia
         component="img"
         height="140"
