@@ -14,7 +14,7 @@ const UserSchema = new Schema({
     required: true,
   },
   favourites: [{type: Schema.Types.ObjectId, ref: "Favourites"}],
-  localRatings: [{id: Number, rating: Number}],
+  // localRatings: [{id: Number, rating: Number}],
 });
 
 UserSchema.pre(

@@ -1,51 +1,107 @@
 const express = require('express');
+var async = require('async');
 const Favourites = require('../models/favourites');
+const LocalRating = require('../models/localRating');
 const User = require('../models/user');
 const router = express.Router();
 
 router.get('/:id', (req, res, next) => {
-  console.log("------------------------------------------------ GET");
   const mediaId = req.params.id;
   const username = req.query.username;
-  User.findOne({email: username}, "localRatings", (err, user) => {
-    if (err) return next(err);
-    const localRatingsList = user?.localRatings;
-    const localRating = localRatingsList?.length > 0 ? localRatingsList?.filter(rating => parseInt(rating?.id) === parseInt(mediaId))[0] : null;
-    if (localRating) {
-      console.log("GET localRating", localRating);
-      res.json({
-        rating: localRating?.rating,
+
+  async.waterfall([
+    function(callback) {
+      User.findOne({email: username}, (err, user) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        else {
+          callback(null, user);
+        }
+      });
+    },
+    function(user, callback) {
+      const userId = user._id;
+      LocalRating.find({userId: userId, mediaId: mediaId}, "rating" , (err, ratings) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        else {
+          if (ratings.length === 0) callback(null, null);
+          else callback(null, ratings[0].rating);
+        }
+      });
+    },
+  ], function(err, result) {
+    if (err) {
+      return next(err);
+    }
+    else {
+      return res.json({
+        rating: result,
       });
     }
   });
-  
-  res.json({
-    rating: 0,
-  });
 });
 
+
 router.post('/:id', (req, res, next) => {
-  console.log("------------------------------------------------ POST");
-  const mediaId = req.params.id;
-  const username = req.body.params.username;
-  const rating = req.body.params.rating;
-  console.log("POST", req.body.params);
-  // const {username, rating} = req.query;
-  User.findOne({email: username}, (err, user) => {
+  const mediaId = parseInt(req.params.id);
+  const username = req.body.username;
+  const rating = req.body.rating;
+
+  async.waterfall([
+    function(callback) {
+      User.findOne({email: username}, (err, user) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        else callback(null, user);
+      });
+    },
+    function(user, callback) {
+      const userId = user._id;
+      LocalRating.findOne({userId: userId, mediaId: mediaId}, (err, localRating) => {
+        if (err) {
+          callback(err);
+          return;
+        }
+        else {
+          if (!localRating) {
+            const newRating = new LocalRating({
+              userId: userId,
+              mediaId: mediaId,
+              rating: rating,
+            });
+            newRating.save(err => {
+              if (err) {
+                callback(err);
+                return;
+              }
+              else callback(null, rating);
+            });
+          }
+          else {
+            localRating.rating = rating;
+            localRating.save(err => {
+              if (err) {
+                callback(err);
+                return;
+              }
+              else callback(null, localRating.rating);
+            });
+          }
+        }
+      });
+    },
+  ], function(err, result) {
     if (err) {
-      console.log("POST", err);
       return next(err);
     }
-    try {
-      console.log("POST", user);
-      user?.localRatings.push({id: mediaId, rating: rating});
-      console.log("POST AFTER", user);
-      user.save();
-      console.log("POST AFTER AFTER", user);
-    } catch (e) {
-      console.error("POST", e);
-      return next(err);
-    }
+    else return res.json({message: 'User saved successfully'});
   });
 });
 

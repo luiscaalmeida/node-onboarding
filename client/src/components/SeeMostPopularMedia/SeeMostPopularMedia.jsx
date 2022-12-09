@@ -14,7 +14,6 @@ export const SeeMostPopularMedia = ({type, limit, align, showTitle, list}) => {
   const shouldShowPopularMedia = !isListLoading && !isListError && list_media?.results?.length > 0;
 
   const titlePart = type === MOVIE_TYPE ? 'Movies' : 'TV Series';
-  const urlPart = type === MOVIE_TYPE ? 'movie' : 'tv';
   const listFromData = list || list_media?.results;
   const listToShow = limit ? listFromData?.slice(0, limit) : listFromData;
 
@@ -29,7 +28,7 @@ export const SeeMostPopularMedia = ({type, limit, align, showTitle, list}) => {
               key={media?.id}
               title={type === MOVIE_TYPE ? media?.title : media?.name}
               imageUrl={media?.poster_path ? `https://image.tmdb.org/t/p/w500/${media?.poster_path}` : null}
-              mediaUrl={`/${urlPart}/${media?.id}`}
+              mediaUrl={`/${type}/${media?.id}`}
               overview={media?.overview}
             />
           ))}
