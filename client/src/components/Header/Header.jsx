@@ -79,7 +79,7 @@ export const Header = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Playlists</MenuItem>
                 <MenuItem onClick={logout}>Log Out</MenuItem>
               </Menu>
             </div>

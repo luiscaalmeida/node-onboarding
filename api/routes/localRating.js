@@ -1,6 +1,5 @@
 const express = require('express');
-var async = require('async');
-const Favourites = require('../models/favourites');
+const async = require('async');
 const LocalRating = require('../models/localRating');
 const User = require('../models/user');
 const router = express.Router();
@@ -51,6 +50,7 @@ router.post('/:id', (req, res, next) => {
   const mediaId = parseInt(req.params.id);
   const username = req.body.username;
   const rating = req.body.rating;
+  console.log(req.body);
 
   async.waterfall([
     function(callback) {
@@ -85,14 +85,19 @@ router.post('/:id', (req, res, next) => {
             });
           }
           else {
-            localRating.rating = rating;
-            localRating.save(err => {
-              if (err) {
-                callback(err);
-                return;
-              }
-              else callback(null, localRating.rating);
-            });
+            console.log("HEEERE --------");
+            console.log(localRating.rating, rating);
+            console.log(localRating.rating !== rating);
+            if (localRating.rating !== rating){
+              localRating.rating = rating;
+              localRating.save(err => {
+                if (err) {
+                  callback(err);
+                  return;
+                }
+                else callback(null, localRating.rating);
+              });
+            }
           }
         }
       });

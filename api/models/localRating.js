@@ -10,12 +10,10 @@ const LocalRatingSchema = new Schema({
   mediaId: {
     type: Number,
     required: true,
-    unique: true,
   },
   rating: {
     type: Number,
     required: true,
-    unique: true,
   },
 });
 

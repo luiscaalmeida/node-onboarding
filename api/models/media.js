@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const FavouritesSchema = new Schema({
-  key: {
+const MediaSchema = new Schema({
+  id: {
     type: Number,
     required: true,
     unique: true,
   },
   type: {
     type: String,
-    enum: ['admin', 'guest'],
+    enum: ['tv', 'movie'],
     required: true,
   },
   title: {
@@ -30,4 +30,4 @@ const FavouritesSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model('Favourites', FavouritesSchema);
+module.exports = mongoose.model('Media', MediaSchema);

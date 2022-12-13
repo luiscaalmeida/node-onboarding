@@ -11,13 +11,13 @@ import Overview from './Overview';
 import { Seasons } from './Seasons';
 import { TitleHeader } from './TitleHeader';
 import { LocalRating } from './LocalRating';
+import { Playlist } from './DetailAddOn/Playlist';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
   border-radius: 15px;
-  overflow: hidden;
   width: fit-content;
   box-shadow: 2px 1px 8px #cacaca;
 `;
@@ -26,13 +26,21 @@ const Img = styled.img`
   height: 800px;
   width: auto;
   max-width: 600px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 `;
-const Content = styled.div`
+const ContentRight = styled.div`
   display: flex;
   flex-direction: column;
   padding: 25px 35px 25px 25px;
   gap: 10px;
   max-width: 550px;
+  overflow: auto;
+  max-height: 800px;
+`;
+
+const ContentLeft = styled.div`
+  position: relative;
 `;
 
 export const MediaCardDetail = ({
@@ -53,10 +61,22 @@ export const MediaCardDetail = ({
 }) => {
   const normalizedRating = normalizeToScale0to5(voteAverage);
 
+  const media = {
+    id,
+    type,
+    title,
+    overview,
+    imageUrl,
+    mediaUrl: `/${type}/${id}`,
+  };
+
   return (
     <Wrapper>
-      <Img src={imageUrl} />
-      <Content>
+      <ContentLeft>
+        <Img src={imageUrl} />
+        <Playlist media={media} />
+      </ContentLeft>
+      <ContentRight>
         <TitleHeader title={title} tagline={tagline} />
         <Typography variant="body2" color="text.secondary"> {`Released in ${releaseDate}`} </Typography>
         <Divider />
@@ -66,7 +86,7 @@ export const MediaCardDetail = ({
         {type === MOVIE_TYPE && <Budgeting budget={budget} revenue={revenue} />}
         <RatingVotes voteCount={voteCount} normalizedRating={normalizedRating} />
         <LocalRating id={id} />
-      </Content>
+      </ContentRight>
     </Wrapper>
   );
 }

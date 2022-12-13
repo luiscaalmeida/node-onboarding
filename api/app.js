@@ -28,7 +28,8 @@ const corsOptions = {
 
 const indexRouter = require('./routes/index');
 const secureRoutes = require('./routes/secure');
-const favouriteRouter = require('./routes/favourites');
+// const favouriteRouter = require('./routes/favourites');
+const playlistRouter = require('./routes/playlist');
 const localRatingRouter = require('./routes/localRating');
 
 const app = express();
@@ -43,7 +44,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-app.use('/favourites', favouriteRouter);
+// app.use('/favourites', favouriteRouter);
+app.use('/playlist', passport.authenticate('jwt', { session: false }), playlistRouter);
 app.use('/user', passport.authenticate('jwt', { session: false }), secureRoutes);
 app.use('/localRating', passport.authenticate('jwt', { session: false }), localRatingRouter);
 
