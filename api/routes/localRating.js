@@ -50,7 +50,6 @@ router.post('/:id', (req, res, next) => {
   const mediaId = parseInt(req.params.id);
   const username = req.body.username;
   const rating = req.body.rating;
-  console.log(req.body);
 
   async.waterfall([
     function(callback) {
@@ -85,9 +84,6 @@ router.post('/:id', (req, res, next) => {
             });
           }
           else {
-            console.log("HEEERE --------");
-            console.log(localRating.rating, rating);
-            console.log(localRating.rating !== rating);
             if (localRating.rating !== rating){
               localRating.rating = rating;
               localRating.save(err => {

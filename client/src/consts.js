@@ -38,4 +38,6 @@ export const getLocalRatingByMediaId = (id) => `${SERVER_BASE_URL}/localRating/$
 export const setLocalRatingByMediaId = (id) => `${SERVER_BASE_URL}/localRating/${id}`;
 export const getAllPlaylists = `${SERVER_BASE_URL}/playlist/getAllPlaylists`;
 export const addMediaToPlaylist = `${SERVER_BASE_URL}/playlist/addMediaToPlaylist`;
+export const isMediaInAnyPlaylist = `${SERVER_BASE_URL}/playlist/isMediaInAnyPlaylist`;
+export const removeMediaFromPlaylist = `${SERVER_BASE_URL}/playlist/removeMediaFromPlaylist`;
 export const logoutUrl = `${SERVER_BASE_URL}/logout`;

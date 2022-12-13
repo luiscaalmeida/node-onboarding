@@ -31,9 +31,6 @@ export const LocalRating = ({id}) => {
     }
   }, [getData]);
 
-
-
-  // isLoading isError error.message isSuccess mutate(val)
   const setRatingMutation = useMutation(
     ['setLocalRating'],
     (val) => baseApi.post(
@@ -63,28 +60,11 @@ export const LocalRating = ({id}) => {
     }
   }
 
-
-  // useEffect(() => {
-  //   if((!value || value === 0) && (rating && rating !== 0) && value !== rating) {
-  //     console.log("setValue because of rating", rating?.data?.rating || value);
-  //     setValue(value);
-  //   }
-  // }, [value, rating]);
-
-  // useEffect(() => {
-  //   if(value && value !== 0 && value !== (rating?.data?.rating || 0)) {
-  //     console.log("Refetch: ", value);
-  //     refetch();
-  //   }
-  // }, [refetch, value, rating]);
-
-
-
   return (
     <>
       <Typography variant="h6" color="text.primary"> {'My Rating'} </Typography>
       {isLoadingGetRating
-        ? "Loading"
+        ? <span>{"Loading..."}</span>
         : !isErrorGetRating
           ? (
             <Rating
@@ -93,10 +73,8 @@ export const LocalRating = ({id}) => {
               onChange={(event, newValue) => handleChange(newValue)}
             />
           ) 
-          : <span>{isErrorGetRating}</span>
+          : <span>{`Error: ${isErrorGetRating}`}</span>
       }
     </>
   )
 }
-
-//: !isErrorGetRating && <Rating value={value} onChange={(val) => handleChange(val)} />

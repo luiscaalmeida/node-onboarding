@@ -4,7 +4,7 @@ import baseApi from '../../../axios';
 import { addMediaToPlaylist, getAllPlaylists } from '../../../consts';
 import { useSelector } from 'react-redux';
 import { userName } from '../../../selectors/user';
-import { DetailAddOnPopup } from './DetailAddOnPopup';
+import { DetailAddOnPopup } from './PlaylistsPopup';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const wrapperStyles = {

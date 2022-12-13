@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import CheckIcon from '@mui/icons-material/Check';
 
 const popupStyles = {
   position: 'absolute',
@@ -22,6 +23,9 @@ const playlistStyles = {
   lineHeight: '35px',
   padding: '5px 15px',
   borderRadius: '15px',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
 
   '&:hover': {
     cursor: 'pointer',
@@ -30,18 +34,39 @@ const playlistStyles = {
   }
 }
 
+const includesSymbolStyles = {
+  marginLeft: 'auto',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
 const StyledPopup = styled('div')(popupStyles);
 const StyledPlaylist = styled('div')(playlistStyles);
+const StyledSymbol = styled('span')(includesSymbolStyles);
 
-export const DetailAddOnPopup = ({playlists}) => {
+export const PlaylistsPopup = ({
+  playlists,
+  saveMedia,
+  removeMedia,
+  playlistsWithMedia,
+}) => {
+  const doesPlaylistIncludeMedia = (playlistName) => playlistsWithMedia && playlistsWithMedia?.includes(playlistName);
+
+  const handleClick = (playlistName) => {
+    if (doesPlaylistIncludeMedia(playlistName)) removeMedia(playlistName);
+    else saveMedia(playlistName);
+  }
+
   return (
     <StyledPopup>      
       {playlists?.map(playlist => (
         <StyledPlaylist
           key={playlist?.name}
-          onClick={() => {}}
+          onClick={() => handleClick(playlist?.name)}
         >
           {playlist?.name}
+          {doesPlaylistIncludeMedia(playlist?.name) && <StyledSymbol><CheckIcon /></StyledSymbol>}
         </StyledPlaylist>
       ))}
     </StyledPopup>

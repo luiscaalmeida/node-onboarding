@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import baseApi from '../../../axios';
-import { addMediaToPlaylist, getAllPlaylists } from '../../../consts';
+import { addMediaToPlaylist, getAllPlaylists, isMediaInAnyPlaylist, removeMediaFromPlaylist } from '../../../consts';
 import { useSelector } from 'react-redux';
 import { userName } from '../../../selectors/user';
-import { DetailAddOnPopup } from './DetailAddOnPopup';
+import { PlaylistsPopup } from './PlaylistsPopup';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import { useMutation } from '@tanstack/react-query';
 
 const wrapperStyles = {
   position: 'absolute',
@@ -44,13 +45,28 @@ const StyledWrapper = styled('div')(wrapperStyles);
 
 export const Playlist = ({media}) => {
   const user = useSelector(userName);
-  const [isDetailAddOn, setIsDetailAddOn] = useState(false);
+  const [isPlaylistPopupOpen, setIsPlaylistPopupOpen] = useState(false);
+  const [isMediaInPlaylist, setIsMediaInPlaylist] = useState(false);
+  const [playlistsWithMedia, setPlaylistsWithMedia] = useState(null);
   const [playlists, setPlaylists] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const getPlaylists = async (name) => {
-    console.log("REQUEST FRONTEND");
+  const getPlaylistsMutation = useMutation(
+    ['getPlaylists'],
+    () => baseApi.get(
+      getAllPlaylists,
+      {
+        params: {
+          username: user,
+        }
+      }),
+    {enabled: false},
+  );
+
+
+  const getPlaylists = async () => {
     setIsLoading(true);
     baseApi
       .get(getAllPlaylists, {
@@ -63,9 +79,7 @@ export const Playlist = ({media}) => {
           setIsLoading(false);
           return;
         }
-        console.log("DATA: ", data?.data?.playlists);
         setPlaylists(data?.data?.playlists);
-        setIsDetailAddOn(true);
         setIsLoading(false);
       })
       .catch(error => {
@@ -76,7 +90,6 @@ export const Playlist = ({media}) => {
   };
 
   const saveMedia = async (name) => {
-    console.log(media);
     baseApi
     .post(addMediaToPlaylist, {
       username: user,
@@ -84,9 +97,11 @@ export const Playlist = ({media}) => {
       media: media,
     })
     .then(data => {
-      console.log(data);
+      // console.log(data);
       console.log(data?.data?.playlist);
       setIsLoading(false);
+      setIsMediaInPlaylist(true);
+      setIsPlaylistPopupOpen(false)
     })
     .catch(error => {
       console.log(error.message);
@@ -95,25 +110,94 @@ export const Playlist = ({media}) => {
     });
   };
 
-  const togglePlaylist = () => {
-    if (isDetailAddOn) saveMedia('playlist_1');
-    else getPlaylists();
-    
-    // this should be inside functions above, not here
-    setIsDetailAddOn(prevIsInPlaylist => !prevIsInPlaylist);
+  const togglePlaylistPopup = () => {
+    setIsPlaylistPopupOpen(prevIsInPlaylist => {
+      if (!prevIsInPlaylist) {
+        getPlaylistsMutation.mutate(null, {
+          onSuccess: async (data) => {
+            if(data?.data?.playlists === null) return;
+            setPlaylists(data?.data?.playlists);
+          },
+          onError: async (error) => console.log(error.message),
+        });
+      }
+      // if (!prevIsInPlaylist) getPlaylists();
+      return !prevIsInPlaylist;
+    });
   }
+
+  const removeMedia = (name) => {
+    baseApi
+    .delete(removeMediaFromPlaylist, {
+      data: {
+        username: user,
+        playlistName: name,
+        mediaId: media.id,
+      },
+    })
+    .then(data => {
+      // console.log(data);
+      console.log(data?.data?.playlist);
+      setIsLoading(false);
+      setIsMediaInPlaylist(false);
+      setIsPlaylistPopupOpen(false)
+    })
+    .catch(error => {
+      console.log(error.message);
+      setIsError(error.message);
+      setIsLoading(false);
+    });
+  }
+
+  useEffect(() => {
+    // Ver se este Media (id) existe em alguma playlist do user..
+    setIsLoading(true);
+    baseApi
+      .get(isMediaInAnyPlaylist, {
+        params: {
+          username: user,
+          mediaId: media.id,
+        }
+      })
+      .then(data => {
+        if(data?.data?.playlists) {
+          console.log("included in playlist");
+          console.log(data);
+          setPlaylists(data?.data?.playlists);
+          setIsLoading(false);
+          setIsMediaInPlaylist(true);
+          setPlaylistsWithMedia(data?.data?.playlists);
+        }
+        else {
+          console.log("not included in playlist");
+          setIsMediaInPlaylist(false);
+          setPlaylistsWithMedia(null);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        setIsError(error.message);
+        setIsLoading(false);
+      })
+  }, [user, media]);
 
   return (
     <>
-      <StyledWrapper onClick={togglePlaylist}>
-      {isLoading && !isError
+      <StyledWrapper onClick={togglePlaylistPopup}>
+      {getPlaylistsMutation.isLoading && !getPlaylistsMutation.isError
         ? <MoreHorizIcon />
-        : isDetailAddOn
-          ? <AddIcon />
-          : <CheckIcon />
+        : isMediaInPlaylist
+          ? <CheckIcon />
+          : <AddIcon />
       }
       </StyledWrapper>
-      {isLoading && !isError && playlists && isDetailAddOn && <DetailAddOnPopup playlists={playlists} />}
+      {!getPlaylistsMutation.isLoading && !getPlaylistsMutation.isError && playlists && isPlaylistPopupOpen &&
+        <PlaylistsPopup
+          playlists={playlists}
+          saveMedia={saveMedia}
+          removeMedia={removeMedia}
+          playlistsWithMedia={playlistsWithMedia} />
+      }
     </>
   );
 };
