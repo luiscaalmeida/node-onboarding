@@ -15,12 +15,12 @@ export const SeeMostPopular = () => {
     <>
       <h1 className='centered'>{"Explore more"}</h1>
       <Box sx={{ display: 'flex', justifyContent: 'center', gap: '20px', marginRight: "20px" }}>
-          <BiggerButton size='large' variant="contained" color='secondary' to={'/movies'} component={Link}>
-            Movies
-          </BiggerButton>
-          <BiggerButton size='large' variant="contained" color='secondary' to={'/tvseries'} component={Link}>
-            TV Series
-          </BiggerButton>
+        <BiggerButton size='large' variant="contained" color='secondary' to={'/movies'} component={Link}>
+          Movies
+        </BiggerButton>
+        <BiggerButton size='large' variant="contained" color='secondary' to={'/tvseries'} component={Link}>
+          TV Series
+        </BiggerButton>
       </Box>
     </>
   )

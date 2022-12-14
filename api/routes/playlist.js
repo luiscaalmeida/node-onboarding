@@ -16,7 +16,7 @@ router.get('/getAllPlaylists', (req, res, next) => {
     },
     function(user, callback) {
       const userId = user._id;
-      Playlist.find({userId: userId}, (err, lists) => {
+      Playlist.find({userId: userId}).populate("media_list").exec((err, lists) => {
         if (err) return callback(err);
         else {
           if (!lists) callback(null, null);
@@ -31,9 +31,10 @@ router.get('/getAllPlaylists', (req, res, next) => {
       return next(null, err);
     }
     else {
-      const playlists = lists?.map(list => ({_id: list._id, name: list.name}));
+      // const playlists = lists?.map(list => ({_id: list._id, name: list.name}));
       return res.json({
-        playlists: playlists,
+        playlists: lists,
+        // playlists: playlists,
       });
     }
   });
@@ -50,6 +51,7 @@ router.post('/addMediaToPlaylist', (req, res, next) => {
         if (err) return callback(null, err);
         else {
           if (!foundMedia) {
+            console.log("DID NOT FIND MEDIA");
             const newMedia = new Media({
               id: media.id,
               type: media.type,
@@ -60,10 +62,17 @@ router.post('/addMediaToPlaylist', (req, res, next) => {
             });
             newMedia.save((err, savedMedia) => {
               if (err) return callback(null, err);
-              else callback(null, savedMedia);
+              else {
+                console.log("SAVED MEDIA");
+                console.log(savedMedia);
+                callback(null, savedMedia);
+              }
             });
           }
-          else callback(null, foundMedia);
+          else {
+            console.log("FOUND MEDIA");
+            callback(null, foundMedia);
+          }
         }
       });
     },
@@ -74,6 +83,8 @@ router.post('/addMediaToPlaylist', (req, res, next) => {
       });
     },
     function(user, media, callback) {
+      console.log("PRINT MEDIA");
+      console.log(media);
       const userId = user._id;
       Playlist.findOne({userId: userId, name: playlistName}).populate("media_list").exec((err, playlist) => {
         if (err) return callback(null, err);
@@ -86,12 +97,20 @@ router.post('/addMediaToPlaylist', (req, res, next) => {
             });
           }
           else {
-            if (playlist.media_list.filter(m => m.id === media.id).length > 0) callback(null, playlist);
+            if (playlist.media_list.filter(m => m.id === media.id).length > 0) {
+              callback(null, playlist);
+            }
             else {
               playlist.media_list.push(media);
               playlist.save((err, newPlaylist) => {
-                if (err) return callback(null, err);
-                else callback(null, newPlaylist);
+                if (err) {
+                  console.log(err);
+                  return callback(null, err);
+                }
+                else {
+                  console.log(newPlaylist);
+                  callback(null, newPlaylist);
+                }
               });
             }
           }
@@ -194,5 +213,43 @@ router.delete('/removeMediaFromPlaylist', (req, res, next) => {
     }
   });
 });
+
+router.delete('/deletePlaylist', (req, res, next) => {
+  const username = req.body.username;
+  const playlistName = req.body.playlistName;
+  async.waterfall([
+    function(callback) {
+      User.findOne({email: username}, (err, user) => {
+        if (err) return callback(err);
+        else callback(null, user);
+      });
+    },
+    function(user, callback) {
+      const userId = user._id;
+      Playlist.deleteOne({userId: userId, name: playlistName}, (err, success) => {
+        if (err) {
+          console.log(err);
+          return callback(err);
+        }
+        else {
+          console.log(success);
+          callback(null, success);
+        }
+      });
+    },
+  ], function(err, success) {
+    if (err) {
+      console.log(err);
+      return next(null, err);
+    }
+    else {
+      console.log(success);
+      return res.json({
+        message: "Playlist successfully deleted",
+      });
+    }
+  });
+});
+
 
 module.exports = router;

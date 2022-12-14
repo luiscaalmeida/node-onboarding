@@ -15,7 +15,7 @@ export const getMostPopularTvSeriesURL = () => `${BASE_URL}/tv/popular${BASE_QUE
 
 
 export const MOVIE_TYPE = 'movie';
-export const TVSERIE_TYPE = 'tvserie';
+export const TVSERIE_TYPE = 'tv';
 
 export const DETAIL_FETCHERS = {
   [MOVIE_TYPE]: {key: 'getMovieByIdURL', func: getMovieByIdURL},
@@ -40,4 +40,5 @@ export const getAllPlaylists = `${SERVER_BASE_URL}/playlist/getAllPlaylists`;
 export const addMediaToPlaylist = `${SERVER_BASE_URL}/playlist/addMediaToPlaylist`;
 export const isMediaInAnyPlaylist = `${SERVER_BASE_URL}/playlist/isMediaInAnyPlaylist`;
 export const removeMediaFromPlaylist = `${SERVER_BASE_URL}/playlist/removeMediaFromPlaylist`;
+export const deletePlaylist = `${SERVER_BASE_URL}/playlist/deletePlaylist`;
 export const logoutUrl = `${SERVER_BASE_URL}/logout`;

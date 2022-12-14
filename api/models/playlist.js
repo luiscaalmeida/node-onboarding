@@ -12,7 +12,7 @@ const PlaylistSchema = new Schema({
     required: true,
     unique: true,
   },
-  media_list: [{type: Schema.Types.ObjectId, ref: "Media", unique: true}],
+  media_list: [{type: Schema.Types.ObjectId, ref: "Media"}],
 });
 
 module.exports = mongoose.model('Playlist', PlaylistSchema);

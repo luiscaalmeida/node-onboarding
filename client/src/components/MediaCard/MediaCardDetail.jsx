@@ -11,7 +11,7 @@ import Overview from './Overview';
 import { Seasons } from './Seasons';
 import { TitleHeader } from './TitleHeader';
 import { LocalRating } from './LocalRating';
-import { Playlist } from './DetailAddOn/Playlist';
+import { Playlist } from './Playlist/Playlist';
 
 const Wrapper = styled.div`
   display: flex;

@@ -15,6 +15,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { MediaListPage } from './pages/MediaListPage';
 import { MOVIE_TYPE, TVSERIE_TYPE } from './consts';
+import { PlaylistsPage } from './pages/PlaylistsPage';
 
 
 export const App = () => {
@@ -30,9 +31,10 @@ export const App = () => {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/movies" element={<MediaListPage type={MOVIE_TYPE} />} />
-                <Route path="/tvseries" element={<MediaListPage type={TVSERIE_TYPE} />} />
+                <Route path="/tvs" element={<MediaListPage type={TVSERIE_TYPE} />} />
                 <Route path="/movie/:id" element={<MediaDetailPage type={MOVIE_TYPE} />} />
-                <Route path="/tvserie/:id" element={<MediaDetailPage type={TVSERIE_TYPE} />} />
+                <Route path="/tv/:id" element={<MediaDetailPage type={TVSERIE_TYPE} />} />
+                <Route path="/playlists" element={<PlaylistsPage />} />
               </Routes>
             </BrowserRouter>
           )
