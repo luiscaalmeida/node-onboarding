@@ -60,7 +60,9 @@ export const Header = () => {
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
+                sx={{borderRadius: '12px'}}
               >
+                <Typography sx={{marginRight: '10px'}} variant="h6">{isUserAuthenticated}</Typography>
                 <AccountCircle />
               </IconButton>
               <Menu
@@ -78,12 +80,10 @@ export const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem
-                  component={Link}
-                  to="/playlists"
-                  onClick={handleClose}
-                >
+                <MenuItem component={Link} to="/profile" onClick={handleClose}>
+                  Profile
+                </MenuItem>
+                <MenuItem component={Link} to="/playlists" onClick={handleClose}>
                   Playlists
                 </MenuItem>
                 <MenuItem onClick={logout}>Log Out</MenuItem>

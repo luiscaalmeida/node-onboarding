@@ -4,6 +4,11 @@ import "react-multi-carousel/lib/styles.css";
 import { MediaCardOverview } from '../MediaCardOverview';
 
 const RESPONSIVE_CONFIG = {
+  bigDesktop: {
+    breakpoint: { max: 3000, min: 2000 },
+    items: 4,
+    slidesToSlide: 4,
+  },
   desktop: {
     breakpoint: { max: 2000, min: 1024 },
     items: 3,
@@ -21,7 +26,9 @@ const RESPONSIVE_CONFIG = {
   }
 };
 
-export const PlaylistCarousel = ({mediaList}) => {
+export const PlaylistCarousel = ({playlist, removeMedia}) => {
+  const mediaList = playlist?.media_list;
+  const playlistName = playlist?.name;
 
   return (
     <Carousel
@@ -45,6 +52,11 @@ export const PlaylistCarousel = ({mediaList}) => {
           imageUrl={media?.imageUrl}
           mediaUrl={media?.mediaUrl}
           overview={media?.overview}
+          playlistName={playlistName}
+          removeMedia={() => {
+            console.log(playlistName, media?.id);
+            removeMedia.mutate([playlistName, media?.id]);
+          }}
         />
       ))}
     </Carousel>

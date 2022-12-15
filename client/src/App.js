@@ -16,6 +16,7 @@ import { persistStore } from 'redux-persist';
 import { MediaListPage } from './pages/MediaListPage';
 import { MOVIE_TYPE, TVSERIE_TYPE } from './consts';
 import { PlaylistsPage } from './pages/PlaylistsPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 
 export const App = () => {
@@ -35,6 +36,7 @@ export const App = () => {
                 <Route path="/movie/:id" element={<MediaDetailPage type={MOVIE_TYPE} />} />
                 <Route path="/tv/:id" element={<MediaDetailPage type={TVSERIE_TYPE} />} />
                 <Route path="/playlists" element={<PlaylistsPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
               </Routes>
             </BrowserRouter>
           )

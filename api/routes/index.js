@@ -3,13 +3,6 @@ const passport = require('passport');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-// ...
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.json({ message: 'Hello from API!' });
-});
-
 router.post(
   '/signup',
   passport.authenticate('signup', {session: false}),

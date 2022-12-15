@@ -176,6 +176,7 @@ router.delete('/removeMediaFromPlaylist', (req, res, next) => {
   const username = req.body.username;
   const mediaId = parseInt(req.body.mediaId);
   const playlistName = req.body.playlistName;
+
   async.waterfall([
     function(callback) {
       User.findOne({email: username}, (err, user) => {
@@ -188,7 +189,6 @@ router.delete('/removeMediaFromPlaylist', (req, res, next) => {
       Playlist.findOne({userId: userId, name: playlistName}).populate("media_list").exec((err, playlist) => {
         if (err) return callback(err);
         else {
-          console.log(playlist);
           if (!playlist) callback(null, null);
           else {
             playlist.media_list = playlist.media_list.filter(media => media.id !== mediaId);

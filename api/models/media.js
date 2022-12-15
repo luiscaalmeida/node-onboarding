@@ -26,7 +26,6 @@ const MediaSchema = new Schema({
   },
   overview: {
     type: String,
-    required: true,
   },
 });
 

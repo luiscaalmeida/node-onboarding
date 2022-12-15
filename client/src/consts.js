@@ -36,9 +36,13 @@ export const SERVER_BASE_URL = 'http://localhost:3001';
 
 export const getLocalRatingByMediaId = (id) => `${SERVER_BASE_URL}/localRating/${id}`;
 export const setLocalRatingByMediaId = (id) => `${SERVER_BASE_URL}/localRating/${id}`;
+
 export const getAllPlaylists = `${SERVER_BASE_URL}/playlist/getAllPlaylists`;
 export const addMediaToPlaylist = `${SERVER_BASE_URL}/playlist/addMediaToPlaylist`;
 export const isMediaInAnyPlaylist = `${SERVER_BASE_URL}/playlist/isMediaInAnyPlaylist`;
 export const removeMediaFromPlaylist = `${SERVER_BASE_URL}/playlist/removeMediaFromPlaylist`;
 export const deletePlaylist = `${SERVER_BASE_URL}/playlist/deletePlaylist`;
+
+export const userProfile = `${SERVER_BASE_URL}/user/profile`;
+
 export const logoutUrl = `${SERVER_BASE_URL}/logout`;

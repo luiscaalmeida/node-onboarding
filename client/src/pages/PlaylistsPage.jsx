@@ -8,7 +8,7 @@ import { PageWrapper } from '../components/PageWrapper/PageWrapper';
 import { userName } from '../selectors/user';
 import { useSelector } from 'react-redux';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { deletePlaylist, getAllPlaylists } from '../consts';
+import { deletePlaylist, getAllPlaylists, removeMediaFromPlaylist } from '../consts';
 import { PlaylistCarousel } from '../components/MediaCard/Playlist/PlaylistCarousel';
 import { DeletePlaylistPopup } from '../components/PopUps/DeletePlaylistPopup';
 
@@ -93,6 +93,26 @@ export const PlaylistsPage = ({type}) => {
     enabled: false,
   });
 
+  const removeMediaMutation = useMutation({
+    mutationKey: ['removeMediaFromPlaylist'],
+    mutationFn: ([playlistName, mediaId]) => baseApi.delete(
+      removeMediaFromPlaylist,
+      {
+        data: {
+          username: user,
+          playlistName: playlistName,
+          mediaId: mediaId,
+        },
+      }),
+    onSuccess: async (data) => {
+      console.log(data);
+      console.log("SUCCESS: removeMedia");
+      getAllPlaylistsQuery.refetch();
+    },
+    onError: async (error) => console.log(error.message),
+    enabled: false,
+  });
+
   const showPlaylistsForSearch = filteredPlaylists && filteredPlaylists?.length > 0;
   const noPlaylists = !playlists || playlists?.length === 0;
   const noPlaylistsForSearch = !noPlaylists && !showPlaylistsForSearch;
@@ -142,7 +162,10 @@ export const PlaylistsPage = ({type}) => {
                       <DeleteIcon />
                     </IconButton>
                   </StyledTypography> 
-                  <PlaylistCarousel mediaList={playlist?.media_list} />
+                  {playlist?.media_list?.length > 0
+                    ? <PlaylistCarousel playlist={playlist} removeMedia={removeMediaMutation} />
+                    : <Typography variant="h6" sx={{textAlign: 'center'}} color="text.primary">{"You did not add any media to this playlist yet!"}</Typography>
+                  }
                 </StyledPlaylistContainer>
               )}
             </>
