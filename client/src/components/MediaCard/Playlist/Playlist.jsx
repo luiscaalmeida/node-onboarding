@@ -150,7 +150,10 @@ export const Playlist = ({media}) => {
     enabled: !!user && !!media,
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    isMediaInAnyPlaylistMutation.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

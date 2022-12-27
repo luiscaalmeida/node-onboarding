@@ -14,13 +14,10 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 export const Header = () => {
   const isUserAuthenticated = useSelector(userName);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
   const title = 'IMDB.v2';
 
   const handleMenu = (event) => {
@@ -31,11 +28,6 @@ export const Header = () => {
     localStorage.removeItem('token');
     handleClose();
     navigate('/');
-    // baseApi.post(logoutUrl)
-    //   .then(() => {
-    //     dispatch(userLogout());
-    //   })
-    //   .catch(err => console.error(err));
   }
 
   const handleClose = () => {
@@ -51,45 +43,57 @@ export const Header = () => {
               {title}
             </Typography>
           </Button>
-          {isUserAuthenticated && (
-            <div style={{marginLeft: "auto"}}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-                sx={{borderRadius: '12px'}}
-              >
-                <Typography sx={{marginRight: '10px'}} variant="h6">{isUserAuthenticated}</Typography>
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem component={Link} to="/profile" onClick={handleClose}>
-                  Profile
-                </MenuItem>
-                <MenuItem component={Link} to="/playlists" onClick={handleClose}>
-                  Playlists
-                </MenuItem>
-                <MenuItem onClick={logout}>Log Out</MenuItem>
-              </Menu>
-            </div>
-          )}
+          <div style={{marginLeft: "auto"}}>
+            {isUserAuthenticated ? (
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                  sx={{borderRadius: '12px'}}
+                >
+                  <Typography sx={{marginRight: '10px'}} variant="h6">{isUserAuthenticated}</Typography>
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem component={Link} to="/profile" onClick={handleClose}>
+                    Profile
+                  </MenuItem>
+                  <MenuItem component={Link} to="/playlists" onClick={handleClose}>
+                    Playlists
+                  </MenuItem>
+                  <MenuItem onClick={logout}>Log Out</MenuItem>
+                </Menu>
+              </>  
+            )
+            : (
+              <>
+                <Button variant='text' style={{color: "white"}} to={'/register'} component={Link}>
+                  Sign Up
+                </Button>
+                <Button variant='text' style={{color: "white"}} to={"/login"} component={Link}>
+                  Login
+                </Button>
+              </>
+            )}
+          </div>
         </Toolbar>
       </AppBar>
     </Box>

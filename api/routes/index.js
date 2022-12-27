@@ -14,20 +14,6 @@ router.post(
   },
 );
 
-// router.post(
-//   '/logout',
-//   passport.authenticate('logout', {session: false}),
-//   async (req, res, next) => {
-//     req.logout(err => {
-//       if (err) { 
-//         console.log(err);
-//         return next(err); 
-//       }
-//       res.redirect('/');
-//     });
-//   }
-// );
-
 router.post(
   '/login',
   async (req, res, next) => {
@@ -36,7 +22,9 @@ router.post(
       async (err, user, info) => {
         try {
           if (err || !user) {
-            const error = new Error('An error occurred.');
+            console.log("User: ", user);
+            console.log("Err: ", err);
+            const error = new Error('An error occurred during login.');
             return next(error);
           }
 
@@ -55,6 +43,7 @@ router.post(
             }
           );
         } catch (error) {
+          console.log(error);
           return next(error);
         }
       }

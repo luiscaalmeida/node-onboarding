@@ -1,5 +1,4 @@
 const express = require('express');
-// const Favourites = require('../models/favourites');
 const User = require('../models/user');
 const router = express.Router();
 

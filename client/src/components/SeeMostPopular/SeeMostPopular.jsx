@@ -18,7 +18,7 @@ export const SeeMostPopular = () => {
         <BiggerButton size='large' variant="contained" color='secondary' to={'/movies'} component={Link}>
           Movies
         </BiggerButton>
-        <BiggerButton size='large' variant="contained" color='secondary' to={'/tvseries'} component={Link}>
+        <BiggerButton size='large' variant="contained" color='secondary' to={'/tvs'} component={Link}>
           TV Series
         </BiggerButton>
       </Box>

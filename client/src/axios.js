@@ -28,8 +28,14 @@ baseApi.interceptors.request.use(
 );
 
 export const axiosGet = async (url) => {
-  const response = await baseApi.get(url);
-  return response.data;
+  try {
+    const response = await baseApi.get(url);
+    return response.data;
+  }
+  catch (err) {
+    console.log("axiosGet error");
+    return null;
+  }
 };
 
 export const axiosPost = async (url, data) => await baseApi.post(url, data);

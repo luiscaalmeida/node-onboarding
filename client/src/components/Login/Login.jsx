@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 import { userLogin } from '../../actions/user';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 export const Login = ({setToken}) => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // credentials = {email, password}
 
@@ -42,9 +44,11 @@ export const Login = ({setToken}) => {
     });
     if (token) {
       dispatch(userLogin({name: username, token: token?.token}));
-      console.log('SUBMIT SUCCESSFULL', token);
+      console.log('LOGIN SUBMIT SUCCESSFULL', token);
+      setToken(token?.token || null);
+      navigate('/');
     }
-    setToken(token?.token || null);
+    else setToken(null);
   };
 
   return (

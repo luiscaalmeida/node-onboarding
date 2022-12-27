@@ -23,6 +23,7 @@ export const MediaListPage = ({type}) => {
     () => fetch(search_func(search)).then(res => res.json()),
     {enabled: Boolean(search)},
   );
+  // {structuralSharing: false, staleTime: Infinity}
   
   const shouldShowPopularMedia = !isListLoading && !isListError && list_media?.results?.length > 0;
   const shouldShowSearchResults = !searchResults.isLoading && !searchResults.isError && searchResults?.data?.results?.length > 0;

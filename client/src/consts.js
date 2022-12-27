@@ -44,5 +44,7 @@ export const removeMediaFromPlaylist = `${SERVER_BASE_URL}/playlist/removeMediaF
 export const deletePlaylist = `${SERVER_BASE_URL}/playlist/deletePlaylist`;
 
 export const userProfile = `${SERVER_BASE_URL}/user/profile`;
+export const updateUser = `${SERVER_BASE_URL}/user/updateUser`;
+export const registerUser = `${SERVER_BASE_URL}/user/registerUser`;
 
 export const logoutUrl = `${SERVER_BASE_URL}/logout`;
