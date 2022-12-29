@@ -44,7 +44,28 @@ export const removeMediaFromPlaylist = `${SERVER_BASE_URL}/playlist/removeMediaF
 export const deletePlaylist = `${SERVER_BASE_URL}/playlist/deletePlaylist`;
 
 export const userProfile = `${SERVER_BASE_URL}/user/profile`;
-export const updateUser = `${SERVER_BASE_URL}/user/updateUser`;
-export const registerUser = `${SERVER_BASE_URL}/user/registerUser`;
+export const updateUserInformation = `${SERVER_BASE_URL}/user/updateUserInformation`;
+export const updateUserPassword = `${SERVER_BASE_URL}/user/updateUserPassword`;
+export const registerUser = `${SERVER_BASE_URL}/registerUser`;
+export const loginUser = `${SERVER_BASE_URL}/login`;
 
 export const logoutUrl = `${SERVER_BASE_URL}/logout`;
+
+export const FORM_VALIDATION = {
+  age: {
+    min: {
+      value: 18,
+      message: "You need to be 18 or older to register",
+    },
+    max: {
+      value: 100,
+      message: "There's no way you are this old",
+    },
+  },
+  newPassword: {
+    minLength: {
+      value: 6,
+      message: "Password must be at least 6 characters",
+    }
+  }
+}

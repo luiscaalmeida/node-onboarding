@@ -27,11 +27,10 @@ export const PlaylistsPopup = ({
   playlistsWithMedia,
 }) => {
   const doesPlaylistIncludeMedia = (playlistName) => playlistsWithMedia && playlistsWithMedia?.includes(playlistName);
-
   const handleClick = (playlistName) => {
     if (doesPlaylistIncludeMedia(playlistName)) removeMedia.mutate(playlistName);
     else saveMedia.mutate(playlistName);
-  }
+  };
 
   return (
     <StyledPopup>      

@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/:id', (req, res, next) => {
   console.log("------------------------------------------------ GET");
   const mediaId = req.params.id;
-  const username = req.query.username;
+  const username = req.user.email;
   User.findOne({email: username}, "localRatings", (err, user) => {
     if (err) return next(err);
     const localRatingsList = user?.localRatings;

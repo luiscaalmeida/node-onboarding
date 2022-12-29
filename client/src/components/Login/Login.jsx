@@ -1,72 +1,81 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
-import { userLogin } from '../../actions/user';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { useForm } from 'react-hook-form';
+import baseApi from '../../axios';
+import { useMutation } from '@tanstack/react-query';
+import { Form } from '../Input/Form';
+import { Input } from '../Input/Input';
+import { InputGroup } from '../Input/InputGroup';
+import { loginUser } from '../../consts';
+import { userLogin } from '../../actions/user';
+import { Typography } from '@mui/material';
 
 export const Login = ({setToken}) => {
-  const [username, setUserName] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [globalError, setGlobalError] = useState(null);
+  const {register, handleSubmit, formState: {errors},} = useForm({mode: 'all'});
 
-  // credentials = {email, password}
+  const loginUserMutation = useMutation({
+    mutationKey: ['login'],
+    mutationFn: (form) => {
+      return baseApi.post(
+      loginUser, {
+        email: form.email,
+        password: form.password,
+      });
+    },
+    onSuccess: async (data, form) => {
+      console.log(data);
+      console.log(form);
+      const token = data?.data?.token;
+      if (token) {
+        dispatch(userLogin({name: form.email, token: token}));
+        console.log('LOGIN SUBMIT SUCCESSFULL', token);
+        setToken(token || null);
+        navigate('/');
+      }
+      else setToken(null);
+    },
+    onError: async (error) => {
+      console.log(error.message);
+      setGlobalError(`Wrong credentials! Try again.`);
+    },
+    enabled: true,
+  });
 
-  async function loginUser(credentials) {
-    console.log(credentials);
-    try {
-      return fetch('http://localhost:3001/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-      })
-        .then(data => {
-          if (!data.ok) throw new Error(`Error Status: ${data.status} - ${data.statusText}`);
-          return data.json();
-        })
-        .catch(err => {
-          console.log(err);
-          return null;
-        })
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const token = await loginUser({
-      email: username,
-      password
-    });
-    if (token) {
-      dispatch(userLogin({name: username, token: token?.token}));
-      console.log('LOGIN SUBMIT SUCCESSFULL', token);
-      setToken(token?.token || null);
-      navigate('/');
-    }
-    else setToken(null);
-  };
+  const onSubmit = form => loginUserMutation.mutate(form);
 
   return (
     <div className="login-wrapper">
-      <h1>Please Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Username</p>
-          <input type="text" value={username} onChange={e => setUserName(e.target.value)} />
-        </label>
-        <label>
-          <p>Password</p>
-          <input type="password" value={password} autoComplete="current-password" onChange={e => setPassword(e.target.value)} />
-        </label>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <InputGroup groupLabel={"Please Log In"}>
+          <Input
+            type="text"
+            label="Email or Username"
+            registerLabel="email"
+            register={register}
+            errors={errors}
+            registerConfig={{pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i}}
+            placeholder={"Type your email or username"}
+            required={'Email is required'}
+          />
+          <Input
+            type="password"
+            label="Password"
+            registerLabel="password"
+            register={register}
+            errors={errors}
+            placeholder={"Type your password"}
+            required={'Password is required'}
+          />
+        </InputGroup>
+        {globalError && <Typography sx={{color: 'red', marginLeft: '15px'}} variant='body2'>{globalError}</Typography>}
+        <input type="submit" value={"Login"} />
+      </Form>
     </div>
   )
 };

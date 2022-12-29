@@ -5,12 +5,13 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import baseApi from '../axios';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
-import { User } from '../components/User';
+import { UserInfo } from '../components/UserInfo';
+import { UserPass } from '../components/UserPass';
 import { userProfile } from '../consts';
 import { isObjectEmpty } from '../helpers';
 import { userName } from '../selectors/user';
 
-export const ProfilePage = () => {
+export const ProfilePage = ({edit}) => {
   const title = 'Profile';
   const userEmail = useSelector(userName);
   const [user, setUser] = useState({});
@@ -36,7 +37,7 @@ export const ProfilePage = () => {
     <PageWrapper title={title}>
       {!userProfileQuery.isLoading 
         ? !userProfileQuery.isError && !isObjectEmpty(user)
-          ? <User user={user} />
+          ? edit === 'pass' ? <UserPass user={user} /> : <UserInfo user={user} />
           : <Typography variant="h6" sx={{textAlign: 'center'}} color="text.primary">
               {`Error: ${userProfileQuery?.error || "No User"}`}
             </Typography>

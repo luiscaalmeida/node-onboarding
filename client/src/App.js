@@ -37,7 +37,8 @@ export const App = () => {
                 <Route path="/movie/:id" element={<MediaDetailPage type={MOVIE_TYPE} />} />
                 <Route path="/tv/:id" element={<MediaDetailPage type={TVSERIE_TYPE} />} />
                 <Route path="/playlists" element={<PlaylistsPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/info" element={<ProfilePage edit={'info'} />} />
+                <Route path="/profile/password" element={<ProfilePage edit={'pass'} />} />
               </Routes>
             </BrowserRouter>
           )

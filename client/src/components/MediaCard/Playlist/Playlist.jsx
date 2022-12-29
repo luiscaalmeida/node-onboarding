@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import baseApi from '../../../axios';
 import { addMediaToPlaylist, getAllPlaylists, isMediaInAnyPlaylist, removeMediaFromPlaylist } from '../../../consts';
@@ -8,7 +8,9 @@ import { PlaylistsPopup } from './PlaylistsPopup';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@tanstack/react-query';
+import { useOutsideClickAlert } from '../../../hooks/useOutsideClickAlert';
 
 const wrapperStyles = {
   position: 'absolute',
@@ -155,22 +157,29 @@ export const Playlist = ({media}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const {ref} = useOutsideClickAlert(() => setIsPlaylistPopupOpen(false));
+
   return (
     <>
       <StyledWrapper onClick={togglePlaylistPopup}>
       {getPlaylistsMutation.isLoading && !getPlaylistsMutation.isError
         ? <MoreHorizIcon />
-        : isMediaInPlaylist
-          ? <CheckIcon />
-          : <AddIcon />
+        : isPlaylistPopupOpen
+          ? <CloseIcon />
+          : isMediaInPlaylist
+            ? <CheckIcon />
+            : <AddIcon />
       }
       </StyledWrapper>
       {!getPlaylistsMutation.isLoading && !getPlaylistsMutation.isError && playlists && isPlaylistPopupOpen &&
-        <PlaylistsPopup
-          playlists={playlists}
-          saveMedia={saveMediaMutation}
-          removeMedia={removeMediaMutation}
-          playlistsWithMedia={playlistsWithMedia} />
+        <div ref={ref}>
+          <PlaylistsPopup
+            playlists={playlists}
+            saveMedia={saveMediaMutation}
+            removeMedia={removeMediaMutation}
+            playlistsWithMedia={playlistsWithMedia}
+          />
+        </div>
       }
     </>
   );

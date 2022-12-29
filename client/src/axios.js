@@ -19,11 +19,25 @@ baseApi.interceptors.request.use(
       console.log(error);
        if (!error.response) {
             // network error
+            console.log("fignerbprnbpi");
             this.errorStatus = 'Error: Network Error';
-        } else {
+          } else {
+            console.log("aaaadsdadsdds");
             this.errorStatus = error.response.data.message;
         }
       return Promise.reject(error); 
+    }
+);
+
+baseApi.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 401) {
+          // clean localStorage
+          // clean redux store
+          // redirect to login page
+        }
+        return Promise.reject(error);
     }
 );
 

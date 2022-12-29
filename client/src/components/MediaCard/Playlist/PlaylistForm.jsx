@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 
 const formStyles = {
   marginTop: '10px',
+  marginBottom: '15px',
   fontSize: '16px',
   fontWeight: 'bold',
   lineHeight: '35px',
@@ -11,6 +12,7 @@ const formStyles = {
   paddingBottom: '0',
   display: 'flex',
   flexDirection: 'row',
+  flexWrap: 'wrap',
   justifyContent: 'space-between',
 
   input: {
@@ -51,12 +53,12 @@ export const PlaylistForm = ({saveMedia}) => {
         placeholder='New Playlist'
         aria-invalid={errors.newPlaylist ? "true" : "false"}
         {...register("newPlaylist", {
-          required: true,
+          required: 'Playlist name is required',
           maxLength: 20,
           pattern: /^[-A-Za-z0-9_]+$/i
         })} />
-      {errors.newPlaylist && <span role="alert">{`Error: ${errors.newPlaylist?.type} ${errors.newPlaylist?.message}`}</span>}
       <input type="submit" value={"Add"} />
+      {errors.newPlaylist && <div style={{marginLeft: '5px'}} role="alert">{`Error: ${errors.newPlaylist?.message}`}</div>}
     </StyledForm>
   )
 }

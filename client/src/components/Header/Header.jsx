@@ -7,17 +7,19 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userName } from '../../selectors/user';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { userLogout } from '../../actions/user';
 
 export const Header = () => {
   const isUserAuthenticated = useSelector(userName);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const title = 'IMDB.v2';
 
   const handleMenu = (event) => {
@@ -26,6 +28,7 @@ export const Header = () => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    dispatch(userLogout());
     handleClose();
     navigate('/');
   }
@@ -73,8 +76,11 @@ export const Header = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem component={Link} to="/profile" onClick={handleClose}>
-                    Profile
+                  <MenuItem component={Link} to="/profile/info" onClick={handleClose}>
+                    Update Personal Information
+                  </MenuItem>
+                  <MenuItem component={Link} to="/profile/password" onClick={handleClose}>
+                    Update Password
                   </MenuItem>
                   <MenuItem component={Link} to="/playlists" onClick={handleClose}>
                     Playlists

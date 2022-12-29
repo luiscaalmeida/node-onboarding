@@ -6,11 +6,10 @@ const router = express.Router();
 
 router.get('/:id', (req, res, next) => {
   const mediaId = req.params.id;
-  const username = req.query.username;
 
   async.waterfall([
     function(callback) {
-      User.findOne({email: username}, (err, user) => {
+      User.findOne({email: req.user.email}, (err, user) => {
         if (err) {
           callback(err);
           return;
@@ -48,12 +47,11 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/:id', (req, res, next) => {
   const mediaId = parseInt(req.params.id);
-  const username = req.body.username;
   const rating = req.body.rating;
 
   async.waterfall([
     function(callback) {
-      User.findOne({email: username}, (err, user) => {
+      User.findOne({email: req.user.email}, (err, user) => {
         if (err) {
           callback(err);
           return;
