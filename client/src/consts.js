@@ -46,6 +46,9 @@ export const deletePlaylist = `${SERVER_BASE_URL}/playlist/deletePlaylist`;
 export const userProfile = `${SERVER_BASE_URL}/user/profile`;
 export const updateUserInformation = `${SERVER_BASE_URL}/user/updateUserInformation`;
 export const updateUserPassword = `${SERVER_BASE_URL}/user/updateUserPassword`;
+export const updateUserPhoto = `${SERVER_BASE_URL}/user/updateUserPhoto`;
+export const getUserPhoto = (photoName) => `${SERVER_BASE_URL}/images/${photoName}`;
+
 export const registerUser = `${SERVER_BASE_URL}/registerUser`;
 export const loginUser = `${SERVER_BASE_URL}/login`;
 

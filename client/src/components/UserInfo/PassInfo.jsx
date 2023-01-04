@@ -1,15 +1,15 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { useMutation } from '@tanstack/react-query';
-import baseApi from '../axios';
-import { FORM_VALIDATION, updateUserPassword } from '../consts';
-import { InputGroup } from './Input/InputGroup';
-import { Input } from './Input/Input';
-import { Form } from './Input/Form';
+import baseApi from '../../axios';
+import { FORM_VALIDATION, updateUserPassword } from '../../consts';
+import { InputGroup } from '../Input/InputGroup';
+import { Input } from '../Input/Input';
+import { Form } from '../Input/Form';
 import { useNavigate } from 'react-router-dom';
 
 
-export const UserPass = ({user}) => {
+export const PassInfo = ({user}) => {
   const {email} = user;
   const navigate = useNavigate();
   const {register, handleSubmit, getValues, formState: {errors},} = useForm({mode: 'all'});

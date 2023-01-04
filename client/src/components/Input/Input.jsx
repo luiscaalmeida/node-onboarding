@@ -16,7 +16,7 @@ const inputWrapperStyles = {
 
 const StyledInputWrapper = styled('div')(inputWrapperStyles);
 
-export const Input = ({ type, label, registerLabel, register, required, errors, registerConfig, defaultValue, placeholder }) => {
+export const Input = ({ type, label, registerLabel, register, required, errors, registerConfig, defaultValue, placeholder, onInput }) => {
   return (
   <StyledInputWrapper>
     <label>{label}</label>
@@ -25,6 +25,7 @@ export const Input = ({ type, label, registerLabel, register, required, errors, 
       name={registerLabel}
       placeholder={placeholder}
       defaultValue={defaultValue}
+      onInput={onInput}
       aria-invalid={errors[registerLabel] ? "true" : "false"}
       style={{borderColor: errors[registerLabel] ? 'red' : '#d8d8d8'}}
       {...register(registerLabel, { ...registerConfig, required: required })}  

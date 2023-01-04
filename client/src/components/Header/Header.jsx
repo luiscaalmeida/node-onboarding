@@ -82,6 +82,9 @@ export const Header = () => {
                   <MenuItem component={Link} to="/profile/password" onClick={handleClose}>
                     Update Password
                   </MenuItem>
+                  <MenuItem component={Link} to="/profile/picture" onClick={handleClose}>
+                    Update Profile Picture
+                  </MenuItem>
                   <MenuItem component={Link} to="/playlists" onClick={handleClose}>
                     Playlists
                   </MenuItem>

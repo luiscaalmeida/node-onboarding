@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import baseApi from '../axios';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
-import { UserInfo } from '../components/UserInfo';
-import { UserPass } from '../components/UserPass';
+import { PassInfo } from '../components/UserInfo/PassInfo';
+import { PersonalInfo } from '../components/UserInfo/PersonalInfo';
+import { PhotoInfo } from '../components/UserInfo/PhotoInfo';
 import { userProfile } from '../consts';
 import { isObjectEmpty } from '../helpers';
 import { userName } from '../selectors/user';
@@ -17,7 +18,7 @@ export const ProfilePage = ({edit}) => {
   const [user, setUser] = useState({});
 
   const userProfileQuery = useQuery({
-    queryKey: ['getUserProfile'],
+    queryKey: ['getUserProfile', edit],
     queryFn: () => baseApi.get(
       userProfile,
       {params: {username: userEmail}}
@@ -37,7 +38,11 @@ export const ProfilePage = ({edit}) => {
     <PageWrapper title={title}>
       {!userProfileQuery.isLoading 
         ? !userProfileQuery.isError && !isObjectEmpty(user)
-          ? edit === 'pass' ? <UserPass user={user} /> : <UserInfo user={user} />
+          ? (<>
+            {edit === 'pass' && <PassInfo user={user} />}
+            {edit === 'info' && <PersonalInfo user={user} />}
+            {edit === 'pic' && <PhotoInfo user={user} />}
+          </>)
           : <Typography variant="h6" sx={{textAlign: 'center'}} color="text.primary">
               {`Error: ${userProfileQuery?.error || "No User"}`}
             </Typography>

@@ -15,6 +15,7 @@ import {LoginPage} from './pages/LoginPage';
 import {HomePage} from './pages/HomePage';
 import {MediaDetailPage} from './pages/MediaDetailPage';
 import {MediaListPage} from './pages/MediaListPage';
+import { LogoutPage } from './pages/LogoutPage';
 // CONSTS
 import {MOVIE_TYPE, TVSERIE_TYPE} from './consts';
 // CSS
@@ -39,6 +40,8 @@ export const App = () => {
                 <Route path="/playlists" element={<PlaylistsPage />} />
                 <Route path="/profile/info" element={<ProfilePage edit={'info'} />} />
                 <Route path="/profile/password" element={<ProfilePage edit={'pass'} />} />
+                <Route path="/profile/picture" element={<ProfilePage edit={'pic'} />} />
+                <Route path="/logout" element={<LogoutPage />} />
               </Routes>
             </BrowserRouter>
           )

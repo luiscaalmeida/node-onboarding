@@ -25,6 +25,9 @@ const UserSchema = new Schema({
   country: {
     type: String,
   },
+  photo: {
+    type: String,
+  }
 });
 
 UserSchema.pre(

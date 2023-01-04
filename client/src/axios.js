@@ -10,7 +10,6 @@ baseApi.setBearerToken = function(token) {
 
 baseApi.interceptors.request.use(
     function (config) {
-        // const token = localStorageService.getAccessToken()
         const token = JSON.parse(localStorage.getItem('token'));
         if(token && !config.isPublicRequest) baseApi.setBearerToken(token);
         return config;
@@ -18,11 +17,8 @@ baseApi.interceptors.request.use(
     function(error) {
       console.log(error);
        if (!error.response) {
-            // network error
-            console.log("fignerbprnbpi");
             this.errorStatus = 'Error: Network Error';
           } else {
-            console.log("aaaadsdadsdds");
             this.errorStatus = error.response.data.message;
         }
       return Promise.reject(error); 
@@ -33,9 +29,8 @@ baseApi.interceptors.response.use(
     response => response,
     error => {
         if (error.response?.status === 401) {
-          // clean localStorage
-          // clean redux store
-          // redirect to login page
+          console.log("Caught a 401");
+          window.location.href = "/logout";
         }
         return Promise.reject(error);
     }

@@ -7,6 +7,8 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const fileUpload = require("express-fileupload");
+
 
 mongoose.connect('mongodb://localhost/onboarding-node-users', {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
@@ -35,9 +37,10 @@ const app = express();
 
 app.use(cors(corsOptions))
 app.use(logger('dev'));
+app.use(fileUpload({createParentPath: true}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

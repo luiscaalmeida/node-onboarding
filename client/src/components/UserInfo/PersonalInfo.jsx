@@ -1,13 +1,13 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import { useMutation } from '@tanstack/react-query';
-import baseApi from '../axios';
-import { FORM_VALIDATION, updateUserInformation } from '../consts';
-import { InputGroup } from './Input/InputGroup';
-import { Input } from './Input/Input';
-import { Form } from './Input/Form';
+import baseApi from '../../axios';
+import { FORM_VALIDATION, updateUserInformation } from '../../consts';
+import { InputGroup } from '../Input/InputGroup';
+import { Input } from '../Input/Input';
+import { Form } from '../Input/Form';
 
-export const UserInfo = ({user}) => {
+export const PersonalInfo = ({user}) => {
   const {email} = user;
   const first_name = user.first_name;
   const last_name = user.last_name;
@@ -55,5 +55,6 @@ export const UserInfo = ({user}) => {
       </InputGroup>
       <input type="submit" value={"Save Changes"} />
     </Form>
-  )
+  );
+
 }; 

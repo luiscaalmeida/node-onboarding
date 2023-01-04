@@ -12,7 +12,7 @@ export const LocalRating = ({id}) => {
   const [value, setValue] = useState(null);
   
   const {isLoading: isLoadingGetRating, error: isErrorGetRating, data: getData} = useQuery(
-    ['getLocalRating'],
+    ['getLocalRating', id],
     () => baseApi.get(
       getLocalRatingByMediaId(id),
       {
