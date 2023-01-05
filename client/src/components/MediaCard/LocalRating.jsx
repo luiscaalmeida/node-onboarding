@@ -2,24 +2,19 @@ import React, { useEffect } from 'react'
 import { Rating, Typography } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getLocalRatingByMediaId, setLocalRatingByMediaId } from '../../consts';
-import { useSelector } from 'react-redux';
-import { userName } from '../../selectors/user';
 import baseApi from '../../axios';
 import { useState } from 'react';
+import { useStore } from '../../storeContext';
 
 export const LocalRating = ({id}) => {
-  const user = useSelector(userName);
+  const store = useStore();
+  const user = store.username;
   const [value, setValue] = useState(null);
   
   const {isLoading: isLoadingGetRating, error: isErrorGetRating, data: getData} = useQuery(
     ['getLocalRating', id],
     () => baseApi.get(
-      getLocalRatingByMediaId(id),
-      {
-        params: {
-          username: user,
-        }
-      }),
+      getLocalRatingByMediaId(id), {}),
     {enabled: !!user && !!id},
   );
 

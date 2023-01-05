@@ -5,12 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { PageWrapper } from '../components/PageWrapper/PageWrapper';
-import { userName } from '../selectors/user';
-import { useSelector } from 'react-redux';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { deletePlaylist, getAllPlaylists, removeMediaFromPlaylist } from '../consts';
 import { PlaylistCarousel } from '../components/MediaCard/Playlist/PlaylistCarousel';
 import { DeletePlaylistPopup } from '../components/PopUps/DeletePlaylistPopup';
+import { useStore } from '../storeContext';
 
 const playlistContainer = {
   marginBottom: '25px',
@@ -43,7 +42,8 @@ const StyledPlaylistContainer = styled('div')(playlistContainer);
 
 export const PlaylistsPage = ({type}) => {
   const title = "My Playlists";
-  const user = useSelector(userName);
+  const store = useStore();
+  const user = store.username;
   const [search, setSearch] = useState('');
   const [playlists, setPlaylists] = useState([]);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
@@ -55,11 +55,7 @@ export const PlaylistsPage = ({type}) => {
 
   const getAllPlaylistsQuery = useQuery({
     queryKey: ['getAllPlaylists'],
-    queryFn: () => baseApi.get(
-      getAllPlaylists, {
-        params: {username: user}
-      }
-    ),
+    queryFn: () => baseApi.get(getAllPlaylists, {}),
     onSuccess: async (data) => {
       console.log("SUCCESS: getPlaylists");
       if(data?.data?.playlists === null) setPlaylists([]);
@@ -77,7 +73,6 @@ export const PlaylistsPage = ({type}) => {
     mutationFn: () => baseApi.delete(
       deletePlaylist, {
         data: {
-          username: user,
           playlistName: playlistToDelete,
         },
       }),
@@ -99,7 +94,6 @@ export const PlaylistsPage = ({type}) => {
       removeMediaFromPlaylist,
       {
         data: {
-          username: user,
           playlistName: playlistName,
           mediaId: mediaId,
         },

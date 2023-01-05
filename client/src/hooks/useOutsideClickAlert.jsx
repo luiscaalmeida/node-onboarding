@@ -9,6 +9,7 @@ export const useOutsideClickAlert = (onClickOutside) => {
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
 
   return {ref};

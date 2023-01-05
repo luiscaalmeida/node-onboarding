@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userLogout } from '../actions/user';
+import { useStore } from '../storeContext';
 
-export const Logout = () => {
-  const dispatch = useDispatch();
+export const Logout = ({setToken}) => {
   const navigate = useNavigate();
+  const store = useStore();
 
-  const logout = async () => {
-    localStorage.removeItem('token');
-    await dispatch(userLogout());
+  const logout = () => {
+    store.setUsername(null);
+    store.setToken(null);
+    setToken(null);
     navigate('/');
   }
 

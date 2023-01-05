@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { useForm } from 'react-hook-form';
@@ -10,14 +9,14 @@ import { Form } from '../Input/Form';
 import { Input } from '../Input/Input';
 import { InputGroup } from '../Input/InputGroup';
 import { loginUser } from '../../consts';
-import { userLogin } from '../../actions/user';
 import { Typography } from '@mui/material';
+import { useStore } from '../../storeContext';
 
 export const Login = ({setToken}) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [globalError, setGlobalError] = useState(null);
   const {register, handleSubmit, formState: {errors},} = useForm({mode: 'all'});
+  const store = useStore();
 
   const loginUserMutation = useMutation({
     mutationKey: ['login'],
@@ -33,7 +32,8 @@ export const Login = ({setToken}) => {
       console.log(form);
       const token = data?.data?.token;
       if (token) {
-        dispatch(userLogin({name: form.email, token: token}));
+        store.setUsername(form.email);
+        store.setToken(token);
         console.log('LOGIN SUBMIT SUCCESSFULL', token);
         setToken(token || null);
         navigate('/');

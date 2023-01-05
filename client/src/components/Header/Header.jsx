@@ -7,31 +7,20 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useDispatch, useSelector } from 'react-redux';
-import { userName } from '../../selectors/user';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { userLogout } from '../../actions/user';
+import { useStore } from '../../storeContext';
 
 export const Header = () => {
-  const isUserAuthenticated = useSelector(userName);
   const [anchorEl, setAnchorEl] = useState(null);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const store = useStore();
+  const isUserAuthenticated = store.username;
   const title = 'IMDB.v2';
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    dispatch(userLogout());
-    handleClose();
-    navigate('/');
-  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -88,7 +77,9 @@ export const Header = () => {
                   <MenuItem component={Link} to="/playlists" onClick={handleClose}>
                     Playlists
                   </MenuItem>
-                  <MenuItem onClick={logout}>Log Out</MenuItem>
+                  <MenuItem component={Link} to="/logout" onClick={handleClose}>
+                    Log Out
+                  </MenuItem>
                 </Menu>
               </>  
             )

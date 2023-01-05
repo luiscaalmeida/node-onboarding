@@ -2,7 +2,6 @@ import { Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import baseApi from '../axios';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
 import { PassInfo } from '../components/UserInfo/PassInfo';
@@ -10,19 +9,17 @@ import { PersonalInfo } from '../components/UserInfo/PersonalInfo';
 import { PhotoInfo } from '../components/UserInfo/PhotoInfo';
 import { userProfile } from '../consts';
 import { isObjectEmpty } from '../helpers';
-import { userName } from '../selectors/user';
+import { useStore } from '../storeContext';
 
 export const ProfilePage = ({edit}) => {
   const title = 'Profile';
-  const userEmail = useSelector(userName);
+  const store = useStore();
+  const userEmail = store.username;
   const [user, setUser] = useState({});
 
   const userProfileQuery = useQuery({
     queryKey: ['getUserProfile', edit],
-    queryFn: () => baseApi.get(
-      userProfile,
-      {params: {username: userEmail}}
-    ),
+    queryFn: () => baseApi.get(userProfile, {}),
     onSuccess: async (data) => {
       console.log(data);
       setUser(data?.data?.user);

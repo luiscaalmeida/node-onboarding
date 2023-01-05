@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import baseApi from '../../../axios';
 import { addMediaToPlaylist, getAllPlaylists } from '../../../consts';
-import { useSelector } from 'react-redux';
-import { userName } from '../../../selectors/user';
 import { DetailAddOnPopup } from './PlaylistsPopup';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
@@ -42,7 +40,6 @@ const StyledWrapper = styled('div')(wrapperStyles);
 
 
 export const DetailAddOn = ({add, remove, type, positionRight, AddIcon, RemoveIcon, media}) => {
-  const user = useSelector(userName);
   const [isDetailAddOn, setIsDetailAddOn] = useState(false);
   const [playlists, setPlaylists] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,11 +50,7 @@ export const DetailAddOn = ({add, remove, type, positionRight, AddIcon, RemoveIc
     console.log("REQUEST FRONTEND");
     setIsLoading(true);
     baseApi
-      .get(getAllPlaylists, {
-        params: {
-          username: user,
-        }
-      })
+      .get(getAllPlaylists, {})
       .then(data => {
         if(data?.data?.playlists === null) {
           setIsLoading(false);
@@ -79,7 +72,6 @@ export const DetailAddOn = ({add, remove, type, positionRight, AddIcon, RemoveIc
     console.log(media);
     baseApi
     .post(addMediaToPlaylist, {
-      username: user,
       playlistName: name,
       media: media,
     })
@@ -98,8 +90,6 @@ export const DetailAddOn = ({add, remove, type, positionRight, AddIcon, RemoveIc
   const togglePlaylist = () => {
     if (isDetailAddOn) saveMedia('playlist_1');
     else getPlaylists();
-    // if (isDetailAddOn) remove();
-    // else add();
     setIsDetailAddOn(prevIsInPlaylist => !prevIsInPlaylist);
   }
 
