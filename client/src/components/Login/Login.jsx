@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
@@ -10,13 +10,13 @@ import { Input } from '../Input/Input';
 import { InputGroup } from '../Input/InputGroup';
 import { loginUser } from '../../consts';
 import { Typography } from '@mui/material';
-import { useStore } from '../../storeContext';
+import { StoreContext } from '../../storeContext';
 
 export const Login = ({setToken}) => {
   const navigate = useNavigate();
   const [globalError, setGlobalError] = useState(null);
   const {register, handleSubmit, formState: {errors},} = useForm({mode: 'all'});
-  const store = useStore();
+  const store = useContext(StoreContext);
 
   const loginUserMutation = useMutation({
     mutationKey: ['login'],

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import baseApi from '../axios';
 import styled from '@emotion/styled';
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { deletePlaylist, getAllPlaylists, removeMediaFromPlaylist } from '../consts';
 import { PlaylistCarousel } from '../components/MediaCard/Playlist/PlaylistCarousel';
 import { DeletePlaylistPopup } from '../components/PopUps/DeletePlaylistPopup';
-import { useStore } from '../storeContext';
+import { StoreContext } from '../storeContext';
 
 const playlistContainer = {
   marginBottom: '25px',
@@ -42,7 +42,7 @@ const StyledPlaylistContainer = styled('div')(playlistContainer);
 
 export const PlaylistsPage = ({type}) => {
   const title = "My Playlists";
-  const store = useStore();
+  const store = useContext(StoreContext);
   const user = store.username;
   const [search, setSearch] = useState('');
   const [playlists, setPlaylists] = useState([]);

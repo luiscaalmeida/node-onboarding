@@ -1,18 +1,57 @@
 import axios from 'axios';
 
 const baseApi = axios.create({});
-baseApi.bearerToken = null;
+// const baseApi = axios.create({
+//   headers: {
+//     Authorization : `Bearer ${localStorage.getItem("token")}`
+//   }
+// });
 
-baseApi.setBearerToken = function(token) {
-    this.bearerToken = token;
-    this.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-};
+// baseApi.bearerToken = null;
+
+// baseApi.setBearerToken = function(token) {
+//   console.log("setBearerToken: ", token);
+//   this.bearerToken = token;
+//   this.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//   this.defaults.headers['Authorization'] = `Bearer ${token}`;
+// };
+
+// baseApi.interceptors.request.use(
+//     function (config) {
+//         const token = JSON.parse(localStorage.getItem('token'));
+//         console.log("CONFIG");
+//         console.log(config.isPublicRequest);
+//         console.log(token);
+//         if(token) {
+//           console.log("entrei..");
+//           baseApi.setBearerToken(token);
+//         }
+//         return config;
+//     },
+//     function(error) {
+//       console.log("ERROR");
+//       console.log(error);
+//        if (!error.response) {
+//             this.errorStatus = 'Error: Network Error';
+//           } else {
+//             this.errorStatus = error.response.data.message;
+//         }
+//       return Promise.reject(error); 
+//     }
+// );
 
 baseApi.interceptors.request.use(
     function (config) {
         const token = JSON.parse(localStorage.getItem('token'));
-        if(token && !config.isPublicRequest) baseApi.setBearerToken(token);
-        return config;
+        return token 
+          ? {
+            ...config,
+            headers: {
+              ...config.headers,
+              'Authorization': `Bearer ${token}`
+            }
+          }
+          : config;
     },
     function(error) {
       console.log(error);

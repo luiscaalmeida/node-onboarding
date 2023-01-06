@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../storeContext';
+import { StoreContext } from '../storeContext';
 
 export const Logout = ({setToken}) => {
   const navigate = useNavigate();
-  const store = useStore();
+  const store = useContext(StoreContext);
 
   const logout = () => {
     store.setUsername(null);

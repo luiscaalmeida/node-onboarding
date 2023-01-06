@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,11 +10,11 @@ import Menu from '@mui/material/Menu';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useStore } from '../../storeContext';
+import { StoreContext } from '../../storeContext';
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const store = useStore();
+  const store = useContext(StoreContext);
   const isUserAuthenticated = store.username;
   const title = 'IMDB.v2';
 

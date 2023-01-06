@@ -7,7 +7,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { StoreProvider } from './storeContext';
+import { Store } from './store';
+import { StoreContext } from './storeContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,13 +18,14 @@ const queryClient = new QueryClient({
   },
 });
 
+const store = new Store();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <StoreProvider>
+    <StoreContext.Provider value={store}>
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>
-    </StoreProvider>
+    </StoreContext.Provider>;
   </React.StrictMode>
 );

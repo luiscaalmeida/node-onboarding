@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import baseApi from '../../../axios';
 import { addMediaToPlaylist, getAllPlaylists, isMediaInAnyPlaylist, removeMediaFromPlaylist } from '../../../consts';
@@ -9,7 +9,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@tanstack/react-query';
 import { useOutsideClickAlert } from '../../../hooks/useOutsideClickAlert';
-import { useStore } from '../../../storeContext';
+import { StoreContext } from '../../../storeContext';
 
 const wrapperStyles = {
   position: 'absolute',
@@ -45,7 +45,7 @@ const wrapperStyles = {
 const StyledWrapper = styled('div')(wrapperStyles);
 
 export const Playlist = ({media}) => {
-  const store = useStore();
+  const store = useContext(StoreContext);
   const user = store.username;
   const [isPlaylistPopupOpen, setIsPlaylistPopupOpen] = useState(false);
   const [isMediaInPlaylist, setIsMediaInPlaylist] = useState(false);

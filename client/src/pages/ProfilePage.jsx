@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react';
 import baseApi from '../axios';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
@@ -9,12 +9,13 @@ import { PersonalInfo } from '../components/UserInfo/PersonalInfo';
 import { PhotoInfo } from '../components/UserInfo/PhotoInfo';
 import { userProfile } from '../consts';
 import { isObjectEmpty } from '../helpers';
-import { useStore } from '../storeContext';
+import { StoreContext } from '../storeContext';
 
 export const ProfilePage = ({edit}) => {
   const title = 'Profile';
-  const store = useStore();
+  const store = useContext(StoreContext);
   const userEmail = store.username;
+  const userToken = store.token;
   const [user, setUser] = useState({});
 
   const userProfileQuery = useQuery({
@@ -28,7 +29,7 @@ export const ProfilePage = ({edit}) => {
       console.log(err);
       setUser({});
     },
-    enabled: !!userEmail,
+    enabled: !!userEmail && !!userToken,
   });
 
   return (

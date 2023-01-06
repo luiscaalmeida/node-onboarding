@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Rating, Typography } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getLocalRatingByMediaId, setLocalRatingByMediaId } from '../../consts';
 import baseApi from '../../axios';
 import { useState } from 'react';
-import { useStore } from '../../storeContext';
+import { StoreContext } from '../../storeContext';
 
 export const LocalRating = ({id}) => {
-  const store = useStore();
+  const store = useContext(StoreContext);
   const user = store.username;
   const [value, setValue] = useState(null);
   
