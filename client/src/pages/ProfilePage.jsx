@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react'
 import { useState } from 'react';
 import baseApi from '../axios';
+import { CustomHelmet } from '../components/CustomHelmet';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
 import { PassInfo } from '../components/UserInfo/PassInfo';
 import { PersonalInfo } from '../components/UserInfo/PersonalInfo';
@@ -34,6 +35,10 @@ export const ProfilePage = ({edit}) => {
 
   return (
     <PageWrapper title={title}>
+      <CustomHelmet
+        title={title}
+        description={"Manage your personal information, password and/or profile picture"}
+      />
       {!userProfileQuery.isLoading 
         ? !userProfileQuery.isError && !isObjectEmpty(user)
           ? (<>

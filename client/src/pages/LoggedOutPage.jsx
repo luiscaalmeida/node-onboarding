@@ -1,4 +1,5 @@
 import React from 'react'
+import { CustomHelmet } from '../components/CustomHelmet';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
 
 export const LoggedOutPage = () => {
@@ -6,6 +7,10 @@ export const LoggedOutPage = () => {
 
   return (
     <PageWrapper title={title}>
+      <CustomHelmet
+        title={"Logged Out Page"}
+        description={title}
+      />
     </PageWrapper>
   )
 };

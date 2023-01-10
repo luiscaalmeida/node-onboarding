@@ -6,6 +6,7 @@ import { LIST_FETCHERS, MOVIE_TYPE, SEARCH_FETCHERS } from '../consts';
 import SearchIcon from '@mui/icons-material/Search';
 import { axiosGet } from '../axios';
 import { SeeMostPopularMedia } from '../components/SeeMostPopularMedia/SeeMostPopularMedia';
+import { CustomHelmet } from '../components/CustomHelmet';
 
 export const MediaListPage = ({type}) => {
   const title = type === MOVIE_TYPE ? 'Movies' : 'TV Series';
@@ -31,6 +32,10 @@ export const MediaListPage = ({type}) => {
 
   return (
     <PageWrapper title={title}>
+      <CustomHelmet
+        title={title}
+        description={`Listing all ${title} with a dynamic search bar`}
+      />
       <TextField
         id="outlined-basic"
         placeholder="Search by name"

@@ -10,6 +10,7 @@ import { deletePlaylist, getAllPlaylists, removeMediaFromPlaylist } from '../con
 import { PlaylistCarousel } from '../components/MediaCard/Playlist/PlaylistCarousel';
 import { DeletePlaylistPopup } from '../components/PopUps/DeletePlaylistPopup';
 import { StoreContext } from '../storeContext';
+import { CustomHelmet } from '../components/CustomHelmet';
 
 const playlistContainer = {
   marginBottom: '25px',
@@ -122,6 +123,10 @@ export const PlaylistsPage = ({type}) => {
 
   return (
     <PageWrapper title={title}>
+      <CustomHelmet
+        title={title}
+        description={"Manage all your Playlists in a single page"}
+      />
       <DeletePlaylistPopup
         open={isDeletePopupOpen}
         onClose={() => handleDeletePlaylistPopupClose()}
