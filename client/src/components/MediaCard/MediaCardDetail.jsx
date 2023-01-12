@@ -1,17 +1,12 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import styled from 'styled-components';
-import { Divider } from '@mui/material';
-import { normalizeToScale0to5 } from '../../helpers';
-import { MOVIE_TYPE, TVSERIE_TYPE } from '../../consts';
-import {Budgeting} from './Budgeting';
-import Genres from './Genres';
-import { RatingVotes } from './Rating';
-import Overview from './Overview';
-import { Seasons } from './Seasons';
 import { TitleHeader } from './TitleHeader';
-import { LocalRating } from './LocalRating';
 import { Playlist } from './Playlist/Playlist';
+import { Box, Tab } from '@mui/material';
+import {TabPanel, TabContext, TabList} from '@mui/lab';
+import { useState } from 'react';
+import { GeneralInfo } from './GeneralInfo/GeneralInfo';
+import { MemberGroup } from './Credits/MemberGroup';
 
 const Wrapper = styled.div`
   display: flex;
@@ -58,8 +53,9 @@ export const MediaCardDetail = ({
   voteCount,
   numberSeasons,
   numberEpisodes,
+  credits,
 }) => {
-  const normalizedRating = normalizeToScale0to5(voteAverage);
+  const [tab, setTab] = useState('1');
 
   const media = {
     id,
@@ -76,16 +72,38 @@ export const MediaCardDetail = ({
         <Img src={imageUrl} />
         <Playlist media={media} />
       </ContentLeft>
-      <ContentRight>
-        <TitleHeader title={title} tagline={tagline} />
-        <Typography variant="body2" color="text.secondary"> {`Released in ${releaseDate}`} </Typography>
-        <Divider />
-        {type === TVSERIE_TYPE && <Seasons numberSeasons={numberSeasons} numberEpisodes={numberEpisodes} />}
-        {overview && <Overview overview={overview} />}
-        <Genres genres={genres} />
-        {type === MOVIE_TYPE && <Budgeting budget={budget} revenue={revenue} />}
-        <RatingVotes voteCount={voteCount} normalizedRating={normalizedRating} />
-        <LocalRating id={id} />
+      <ContentRight style={{overflow: 'hidden'}}>
+        <TabContext value={tab}>
+          <TitleHeader title={title} tagline={tagline} />
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <TabList onChange={(event, val) => setTab(val)} aria-label="tabs with media information">
+              <Tab label="General" value="1" />
+              <Tab label="Cast" value="2" />
+              <Tab label="Crew" value="3" />
+            </TabList>
+          </Box>
+          <TabPanel value="1" style={{padding: '0', overflow: 'auto'}}>
+            <GeneralInfo
+              id={id}
+              releaseDate={releaseDate}
+              type={type}
+              numberSeasons={numberSeasons}
+              numberEpisodes={numberEpisodes}
+              overview={overview}
+              genres={genres}
+              budget={budget}
+              revenue={revenue}
+              voteCount={voteCount}
+              voteAverage={voteAverage}
+            />
+          </TabPanel>
+          <TabPanel value="2" style={{padding: '0', overflow: 'auto'}}>
+            <MemberGroup group={credits?.cast} />
+          </TabPanel>
+          <TabPanel value="3" style={{padding: '0', overflow: 'auto'}}>
+            <MemberGroup group={credits?.crew} />
+          </TabPanel>
+        </TabContext>
       </ContentRight>
     </Wrapper>
   );

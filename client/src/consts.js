@@ -8,6 +8,8 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 export const getMovieByIdURL = (id) => `${BASE_URL}/movie/${id}${BASE_QUERIES}`;
 export const getTvSerieByIdURL = (id) => `${BASE_URL}/tv/${id}${BASE_QUERIES}`;
+export const getMovieCreditsByIdURL = (id) => `${BASE_URL}/movie/${id}/credits${BASE_QUERIES}`;
+export const getTvSerieCreditsByIdURL = (id) => `${BASE_URL}/tv/${id}/credits${BASE_QUERIES}`;
 export const searchMoviesURL = (query) => `${BASE_URL}/search/movie${BASE_QUERIES}&query=${query}&include_adult=false`;
 export const searchTVSeriesURL = (query) => `${BASE_URL}/search/tv${BASE_QUERIES}&query=${query}&include_adult=false`;
 export const getMostPopularMoviesURL = () => `${BASE_URL}/movie/popular${BASE_QUERIES}&page=1`;
@@ -20,6 +22,11 @@ export const TVSERIE_TYPE = 'tv';
 export const DETAIL_FETCHERS = {
   [MOVIE_TYPE]: {key: 'getMovieByIdURL', func: getMovieByIdURL},
   [TVSERIE_TYPE]: {key: 'getTvSerieByIdURL', func: getTvSerieByIdURL},
+};
+
+export const CREDITS_FETCHERS = {
+  [MOVIE_TYPE]: {key: 'getMovieCreditsByIdURL', func: getMovieCreditsByIdURL},
+  [TVSERIE_TYPE]: {key: 'getTvSerieCreditsByIdURL', func: getTvSerieCreditsByIdURL},
 };
 
 export const LIST_FETCHERS = {
