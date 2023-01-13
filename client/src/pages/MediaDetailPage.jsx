@@ -2,7 +2,7 @@ import React from 'react'
 import {useParams} from 'react-router-dom';
 import {MediaCardDetail} from '../components/MediaCard/MediaCardDetail';
 import {PageWrapper} from '../components/PageWrapper/PageWrapper';
-import {CREDITS_FETCHERS, DETAIL_FETCHERS, MOVIE_TYPE} from '../consts';
+import {CREDITS_FETCHERS, DETAIL_FETCHERS, IMAGE_BASE_URL, MOVIE_TYPE} from '../consts';
 import {useQuery} from '@tanstack/react-query';
 import {axiosGet} from '../axios';
 import { CustomHelmet } from '../components/CustomHelmet';
@@ -33,7 +33,7 @@ export const MediaDetailPage = ({type}) => {
           <CustomHelmet
             title={title}
             description={getDetails.data?.overview}
-            imageUrl={getDetails.data?.poster_path ? `https://image.tmdb.org/t/p/w500/${getDetails.data?.poster_path}` : null}
+            imageUrl={getDetails.data?.poster_path ? `${IMAGE_BASE_URL}${getDetails.data?.poster_path}` : null}
           />
           <MediaCardDetail
             id={id}
@@ -41,7 +41,7 @@ export const MediaDetailPage = ({type}) => {
             title={title}
             genres={getDetails.data?.genres}
             overview={getDetails.data?.overview}
-            imageUrl={`https://image.tmdb.org/t/p/w500/${getDetails.data?.poster_path}`}
+            imageUrl={`${IMAGE_BASE_URL}${getDetails.data?.poster_path}`}
             releaseDate={type === MOVIE_TYPE ? getDetails.data?.release_date : getDetails.data?.first_air_date}
             budget={getDetails.data?.budget}
             revenue={getDetails.data?.revenue}

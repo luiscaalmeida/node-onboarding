@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-import { Member } from './Member';
+import { Person } from './Person';
 import styled from 'styled-components';
 
 const ContentRight = styled.div`
@@ -31,13 +31,18 @@ const ShowMoreLess = styled.span`
   }
 `;
 
-export const MemberGroup = ({group}) => {
+export const PersonGroup = ({group}) => {
   const [limit, setLimit] = useState(5);
   const membersToShow = group.slice(0, limit || group.length);                
 
   return (
-    <ContentRight style={{padding: '0', minWidth: '400px'}}>
-      {group && membersToShow.map((member, index) => <Member key={`${member?.id}-${index}`} member={member} />)}
+    <ContentRight style={{padding: '0', minWidth: '400px'}} >
+      {group && membersToShow.map((member, index) => (
+        <Person
+          key={`${member?.id}-${index}`}
+          member={member} 
+        />
+      ))}
       <ShowMoreLess
         onClick={() => limit ? setLimit(null) : setLimit(5)}
       >

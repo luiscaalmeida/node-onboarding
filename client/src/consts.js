@@ -6,15 +6,17 @@ const BASE_QUERIES = `${API_KEY_QUERY}${LANGUAGE_QUERY}`;
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 
+export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/';
+
 export const getMovieByIdURL = (id) => `${BASE_URL}/movie/${id}${BASE_QUERIES}`;
 export const getTvSerieByIdURL = (id) => `${BASE_URL}/tv/${id}${BASE_QUERIES}`;
 export const getMovieCreditsByIdURL = (id) => `${BASE_URL}/movie/${id}/credits${BASE_QUERIES}`;
 export const getTvSerieCreditsByIdURL = (id) => `${BASE_URL}/tv/${id}/credits${BASE_QUERIES}`;
+export const getActorById = (id) => `${BASE_URL}/person/${id}${BASE_QUERIES}`;
 export const searchMoviesURL = (query) => `${BASE_URL}/search/movie${BASE_QUERIES}&query=${query}&include_adult=false`;
 export const searchTVSeriesURL = (query) => `${BASE_URL}/search/tv${BASE_QUERIES}&query=${query}&include_adult=false`;
 export const getMostPopularMoviesURL = () => `${BASE_URL}/movie/popular${BASE_QUERIES}&page=1`;
 export const getMostPopularTvSeriesURL = () => `${BASE_URL}/tv/popular${BASE_QUERIES}&page=1`;
-
 
 export const MOVIE_TYPE = 'movie';
 export const TVSERIE_TYPE = 'tv';

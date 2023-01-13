@@ -6,16 +6,10 @@ import { Box, Tab } from '@mui/material';
 import {TabPanel, TabContext, TabList} from '@mui/lab';
 import { useState } from 'react';
 import { GeneralInfo } from './GeneralInfo/GeneralInfo';
-import { MemberGroup } from './Credits/MemberGroup';
+import { PersonGroup } from './Credits/PersonGroup';
+import { DetailCard } from '../DetailCard';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  border-radius: 15px;
-  width: fit-content;
-  box-shadow: 2px 1px 8px #cacaca;
-`;
+
 const Img = styled.img`
   display: flex;
   height: 800px;
@@ -23,19 +17,6 @@ const Img = styled.img`
   max-width: 600px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
-`;
-const ContentRight = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 25px 35px 25px 25px;
-  gap: 10px;
-  max-width: 550px;
-  overflow: auto;
-  max-height: 800px;
-`;
-
-const ContentLeft = styled.div`
-  position: relative;
 `;
 
 export const MediaCardDetail = ({
@@ -67,12 +48,12 @@ export const MediaCardDetail = ({
   };
 
   return (
-    <Wrapper>
-      <ContentLeft>
+    <DetailCard> 
+      <DetailCard.LeftSide>
         <Img src={imageUrl} />
         <Playlist media={media} />
-      </ContentLeft>
-      <ContentRight style={{overflow: 'hidden'}}>
+      </DetailCard.LeftSide>
+      <DetailCard.RightSide>
         <TabContext value={tab}>
           <TitleHeader title={title} tagline={tagline} />
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -98,13 +79,13 @@ export const MediaCardDetail = ({
             />
           </TabPanel>
           <TabPanel value="2" style={{padding: '0', overflow: 'auto'}}>
-            <MemberGroup group={credits?.cast} />
+            <PersonGroup group={credits?.cast} />
           </TabPanel>
           <TabPanel value="3" style={{padding: '0', overflow: 'auto'}}>
-            <MemberGroup group={credits?.crew} />
+            <PersonGroup group={credits?.crew} />
           </TabPanel>
         </TabContext>
-      </ContentRight>
-    </Wrapper>
+      </DetailCard.RightSide>
+    </DetailCard>
   );
 }
